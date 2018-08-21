@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------# Introduction
-@content """
+"""
 # Introduction
 
 ## Basics of BookGenerator.jl
@@ -21,7 +21,7 @@ results in the output:
 end
 
 #-----------------------------------------------------------------------# Plots
-@content """
+"""
 ## Plots
 
 Here is a plot
