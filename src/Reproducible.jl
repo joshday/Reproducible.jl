@@ -2,22 +2,44 @@ module Reproducible
 
 export @code
 
-# function __init__()
-#     @require Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80" _init_plots()
-# end
+#-----------------------------------------------------------------------# Chunks
 abstract type Chunk end
-mutable struct Content <: Chunk
+
+mutable struct Code <: Chunk
     s::String
 end
-mutable struct Code <: Chunk
-    s::String 
+function Base.show(io::IO, o::Code) 
+    s = split(rstrip(o.s), "\n")
+    for si in s 
+        printstyled(io, "code | " * si; color = :blue)
+        println(io)
+    end
 end
 
-macro content(s) nothing end 
+mutable struct MD <: Chunk
+    s::String 
+end
+function Base.show(io::IO, o::MD) 
+    s = split(rstrip(o.s), "\n")
+    for si in s 
+        printstyled(io, "md   | " * si; color = :green)
+        println(io)
+    end
+end
 
-# expression, value, writer
-macro code(s, writer=string) 
-    :($(esc(s)), $writer)
+struct Document 
+    chunks::Vector{Chunk}
+end
+function Base.show(io::IO, o::Document)
+    for chunk in o.chunks 
+        show(io, chunk)
+    end
+end
+
+#-----------------------------------------------------------------------# @code
+
+macro code(s)
+    :(__output__from__chunk__ = $(string(s)); $s)
 end
 
 include("preprocess.jl")

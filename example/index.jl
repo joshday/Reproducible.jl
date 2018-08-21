@@ -9,22 +9,16 @@ author: Josh Day
 
 # Section
 
+Inline code is just interpolation: $(4 + 5)
+
 Here is some code:
 """
 
+x = 1 + 1
+
+@code y = 2 + 2
+
 @code begin 
-    x = 1 + 1
-end
-
-"""
-## Subsection
-
-Here is a plot 
-"""
-
-using Plots
-
-@code plot(randn(50)) x->(png("temp.png"), "![](temp.png)")
-
-# this is ignored
-2 + 2
+    z = randn(50)
+    plot(z)
+end x-> (png("temp.png"); "![](temp.png)")
