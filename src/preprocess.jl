@@ -1,6 +1,36 @@
 function chunks(path)
-    run(`julia $path`)
-    lines = readlines(path)
+    out = [] 
+    file = read(path, String)
+    i = 1 
+    while i <= length(file)
+        ex, i = Meta.parse(file, i)
+        push!(out, ex)
+    end
+    out
+end
+
+function chunks2strings(c)
+    mod = Core.eval(Main, Meta.parse("module Temp end"))
+    out = []
+
+    i = 0
+    for chk in c 
+        if isa(chk, String) 
+            push!(out, chk)
+        else 
+            if chk.args[1] == Symbol("@code")
+                i += 1
+                sym = Symbol("__output__$i")
+                ex = :($sym = $chk)
+                val_writer = Core.eval(mod, ex)
+                Core.eval(mod, :($val_writer[2]($val_writer[1])))
+            else
+                @eval mod $chk
+            end
+            # push!(out, string(Main.Temp.thing))
+        end
+    end
+    out
 end
 
 # function chunks(path)

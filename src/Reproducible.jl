@@ -1,5 +1,6 @@
 module Reproducible
 
+export @code
 
 # function __init__()
 #     @require Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80" _init_plots()
@@ -13,7 +14,11 @@ mutable struct Code <: Chunk
 end
 
 macro content(s) nothing end 
-macro code(s, outputcallback=string) :($s) end
+
+# expression, value, writer
+macro code(s, writer=string) 
+    :($(esc(s)), $writer)
+end
 
 include("preprocess.jl")
 

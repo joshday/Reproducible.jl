@@ -2,10 +2,9 @@
 """
 # Introduction
 
-## Basics of BookGenerator.jl
+## Basics of Reproducible.jl
 
-BookGenerator relies on macros to generate markdown files with evaluated Julia code interspersed
-in the file.  Here is an example of an evaluated code block.  The syntax 
+Here is an example of an evaluated code block.  The syntax 
 
 ```
 @code begin 

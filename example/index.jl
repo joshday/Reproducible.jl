@@ -13,7 +13,7 @@ Here is some code:
 """
 
 @code begin 
-    1 + 1
+    x = 1 + 1
 end
 
 """
@@ -24,11 +24,7 @@ Here is a plot
 
 using Plots
 
-@code plot(randn(5)) x->(png("temp.png"), "![](temp.png)")
+@code plot(randn(50)) x->(png("temp.png"), "![](temp.png)")
 
-"This is ignored"
-
-# so is this 
+# this is ignored
 2 + 2
-
-include("ch1.jl")
