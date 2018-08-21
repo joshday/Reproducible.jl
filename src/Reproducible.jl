@@ -1,6 +1,7 @@
 module Reproducible
 
 using Tokenize
+import Tokenize.Tokens
 
 # function __init__()
 #     @require Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80" _init_plots()

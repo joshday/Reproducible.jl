@@ -1,8 +1,10 @@
 function chunks(path)
-    out = collect(tokenize(read(path, String)))
-    # for i in reverse(1:length(out))
-    #     println(Tokenize.Tokens.kind(out[i]))
-    # end
+    out = Chunk[]
+    for t in tokenize(read(path, String))
+        if Tokens.kind(t) == Tokens.TRIPLE_STRING
+            push!(out, Content(untokenize(t)))
+        end
+    end
     out
 end
 
