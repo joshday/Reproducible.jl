@@ -9,7 +9,7 @@ author: Josh Day
 
 # Section
 
-Inline uses Julia's built in interpolation: $(4 + 5)
+Inline uses Julia's built in interpolation: 4 + 5 = $(4 + 5)
 
 Here is some code:
 """
@@ -18,9 +18,8 @@ x = 1 + 1
 
 @code y = 2 + 2
 
-"And then here is a plot:"
+"Here is a vector:"
 
 @code begin 
-    z = randn(50)
-    plot(z)
+    z = randn(5)
 end
