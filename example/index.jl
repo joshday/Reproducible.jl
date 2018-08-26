@@ -20,6 +20,15 @@ x = 1 + 1
 
 "Here is a vector:"
 
-@code begin 
+@code begin
     z = randn(5)
+end
+
+"""
+And here is a plot of that same vector.
+"""
+
+@code begin 
+    using Plots
+    plot(z)
 end

@@ -2,7 +2,9 @@ module Reproducible
 
 export @code
 
-macro code(s) :($(esc(s))) end
+macro code(s) 
+    :($(esc(s)))
+end
 
 abstract type Chunk end
 
