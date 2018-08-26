@@ -18,7 +18,8 @@ x = 1 + 1
 
 @code y = 2 + 2
 
-@code begin 
-    z = randn(50)
-    plot(z)
-end x-> (png("temp.png"); "![](temp.png)")
+
+
+z = randn(50)
+plot(z)
+@codeend x -> (png(x, "temp.png") ; "![](temp.png")
