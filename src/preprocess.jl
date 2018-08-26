@@ -32,12 +32,14 @@ function preprocess(path)
     Document(out)
 end
 
-
+# remove @code or @code begin ... end block
 function _code(temp)
-    temp = lstrip(replace(temp, "@code" => ""))
+    temp = rstrip(lstrip(replace(temp, "@code" => "")))
     if startswith(temp, "begin")
-        temp = lstrip(replace(temp, "begin" => ""))
-        temp = rstrip(replace(temp, "end" => ""))
+        temp = replace(temp, "begin" => "")
+        temp = replace(temp, "end" => "")
+        # @show temp
     end
+
     temp
 end
