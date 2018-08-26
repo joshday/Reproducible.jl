@@ -9,7 +9,7 @@ author: Josh Day
 
 # Section
 
-Inline code is just interpolation: $(4 + 5)
+Inline uses Julia's built in interpolation: $(4 + 5)
 
 Here is some code:
 """
@@ -18,8 +18,9 @@ x = 1 + 1
 
 @code y = 2 + 2
 
+"And then here is a plot:"
 
-
-z = randn(50)
-plot(z)
-@codeend x -> (png(x, "temp.png") ; "![](temp.png")
+@code begin 
+    z = randn(50)
+    plot(z)
+end

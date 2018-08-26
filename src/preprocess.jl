@@ -1,5 +1,29 @@
+# Create the `Document` from the path to a .jl file 
+# Each chunk contains a string that will get parsed by the renderer
 function preprocess(path)
-    file = read(path, String)
+    out = []
+    temp = ""
+    for line in eachline(path)
+        ex = Meta.parse(temp *= line * "\n"; raise=false)
+        ex == nothing && continue 
+        isa(ex, Expr) && ex.head == :incomplete && continue
+        temp = rstrip(lstrip(temp))
+
+        if startswith(temp, "\"")
+            push!(out, MD(temp))
+        elseif startswith(temp, "@code") 
+            temp = replace(temp, "@code " => "")
+            if startswith(temp, "begin")
+                temp = replace(temp[8:(end-4)], "    " => "")
+            end
+            push!(out, Code(temp, false))
+        else
+            push!(out, Code(temp, true))
+        end
+
+        temp = ""
+    end
+    Document(out)
 end
 
 # function makedoc(path)
