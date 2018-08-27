@@ -1,64 +1,32 @@
 module Reproducible
 
-export @hide
+using Markdown
 
-macro hide(s) 
-    :($(esc(s)))
-end
-
-abstract type Chunk end
-
-#-----------------------------------------------------------------------# MD
-mutable struct MD <: Chunk
-    input::String 
-end
-Base.show(io::IO, o::MD) = printstyled(io, o.input, color = :green)
-
-#-----------------------------------------------------------------------# Code
-mutable struct Code <: Chunk
-    input::String 
-    value 
-    writer
-end
-Code(input, value) = Code(input, value, _string)
-Base.show(io::IO, o::Code) = printstyled(io, _md(o), color = :blue)
-
-function _md(o::Code)
-    if o.value == nothing 
-        "$(o.input)"
-    else
-        """
-        ```julia 
-        $(o.input)
-        ```
-        ```
-        $(o.writer(o.value))
-        ```""" 
+function build(path::String, buildpath::String = joinpath(dirname(path), "build"))
+    md = Markdown.parse(read(path, String))
+    mod = Core.eval(Main, Meta.parse("module Temp end"))
+    isdir(buildpath) && rm(buildpath; recursive=true, force=true)
+    file = touch(joinpath(mkdir(buildpath), basename(path)))
+    open(file, "w") do f
+        for item in md.content
+            write(f, getstring(item) * '\n')
+        end
     end
+    md
 end
 
-_string(v) = string(v)
-_string(v::Nothing) = ""
+getstring(o) = Markdown.plain(o)
 
-#-----------------------------------------------------------------------# Hidden Code 
-mutable struct HiddenCode <: Chunk
-    input::String
-end
-Base.show(io::IO, o::HiddenCode) = printstyled(io, o.input, color = :red)
-
-#-----------------------------------------------------------------------# Document
-mutable struct Document 
-    doc::Vector{Chunk}
-end
-function Base.show(io::IO, d::Document)
-    println(io, "Document with $(length(d.doc)) chunks:")
-    for (i, item) in enumerate(d.doc)
-        println(io, "#-------------------------------------------------------# Chunk $i")
-        println(io, item)
+function getstring(o::Markdown.Code) 
+    if o.language == ""
+        return Markdown.plain(o)
+    elseif o.language == "julia"
+        return Markdown.plain(o)
+    else 
+        return Markdown.plain(o)
     end
+
 end
 
-#-----------------------------------------------------------------------# preprocess/render
-include("preprocess.jl")
-include("render.jl")
+
 end # module
