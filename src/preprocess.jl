@@ -21,31 +21,19 @@ function preprocess(path)
         temp = ""
     end
 
-    # for i in reverse(1:(length(out) - 1))
-    #     if typeof(out[i]) == typeof(out[i+1])
-    #         out[i].input *= "\n" * out[i+1].input
-    #         out[i].value = deepcopy(out[i+1].value)
-    #         deleteat!(out, i+1)
+    # TODO: merge adjacent chunks if they are the same type
+    # i = length(out)
+    # while i > 1 
+    #     if typeof(out[i-1]) == typeof(out[i])
+    #         out[i-1].input *= "\n" * out[i].input
+    #         out[i-1].value = out[i].value
+    #         deleteat!(out, i)
     #     end
+    #     i -= 1
     # end
     for chunk in out
         chunk.input = lstrip(rstrip(chunk.input))
     end
 
     d = Document(out)
-end
-
-# remove @code or @code begin ... end block
-function _code(temp)
-    # @code
-    temp = rstrip(lstrip(replace(temp, "@code" => "")))
-
-    # @code begin ... end
-    if startswith(temp, "begin")
-        s = split(temp, "\n")
-        s = s[2:(end-1)]
-        all(x -> startswith(x, "    "), s) && (s = [si[5:end] for si in s])
-        temp = rstrip(lstrip(join(s, "\n")))
-    end
-    temp
 end
