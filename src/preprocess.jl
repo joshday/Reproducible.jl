@@ -1,5 +1,3 @@
-# Create the `Document` from the path to a .jl file 
-# Each chunk contains a string that will get parsed by the renderer
 function preprocess(path)
     out = []
     temp = ""
@@ -23,13 +21,13 @@ function preprocess(path)
         temp = ""
     end
 
-    for i in length(out):-1:2 
-        if typeof(out[i]) == typeof(out[i-1])
-            out[i-1].input *= "\n" * out[i].input
-            out[i-1].value = out[i].value 
-            deleteat!(out, i)
-        end
-    end
+    # for i in reverse(1:(length(out) - 1))
+    #     if typeof(out[i]) == typeof(out[i+1])
+    #         out[i].input *= "\n" * out[i+1].input
+    #         out[i].value = deepcopy(out[i+1].value)
+    #         deleteat!(out, i+1)
+    #     end
+    # end
     for chunk in out
         chunk.input = lstrip(rstrip(chunk.input))
     end

@@ -18,7 +18,9 @@ Base.show(io::IO, o::MD) = printstyled(io, o.input, color = :green)
 mutable struct Code <: Chunk
     input::String 
     value 
+    writer
 end
+Code(input, value) = Code(input, value, _string)
 Base.show(io::IO, o::Code) = printstyled(io, _md(o), color = :blue)
 
 function _md(o::Code)
@@ -30,7 +32,7 @@ function _md(o::Code)
         $(o.input)
         ```
         ```
-        $(_string(o.value))
+        $(o.writer(o.value))
         ```""" 
     end
 end
