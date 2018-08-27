@@ -14,21 +14,23 @@ Inline uses Julia's built in interpolation: 4 + 5 = $(4 + 5)
 Here is some code:
 """
 
-x = 1 + 1
+@hide x = 1 + 1
 
-@code y = 2 + 2
+y = 2 + 2
+
+""
+
+y = 3 + 3
+
+y2 = 4 + 4
 
 "Here is a vector:"
 
-@code begin
-    z = randn(5)
-end
+z = randn(5)
 
 """
 And here is a plot of that same vector.
 """
 
-@code begin 
-    using Plots
-    plot(z)
-end
+using Plots
+plot(z)
