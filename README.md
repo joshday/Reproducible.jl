@@ -41,4 +41,4 @@ y = 2
 
 ## Example
 
-See [example/index.md](example/index.md)
+See [example/index.md](https://raw.githubusercontent.com/joshday/Reproducible.jl/master/example/index.md?token=AHs45sem4ZTFXF3HQ5wJIE1pHmAUAv1mks5bjukhwA%3D%3D)
