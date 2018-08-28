@@ -1,5 +1,6 @@
 ```julia hide
 using Reproducible, Plots
+builddir = "/Users/joshday/.julia/dev/Reproducible/example/build"
 ```
 
 # My Title!
@@ -16,7 +17,7 @@ y = 2
 
 This executes the block together and includes the output:
 
-```julia block 
+```julia block
 x = 1 
 y = 2
 ```
@@ -26,5 +27,11 @@ And then I make a plot!
 
 ```julia block
 using Plots
-plot(randn(100))
+plot(randn(100));
 ```
+
+```julia hide
+png(joinpath(builddir, "img.png"))
+```
+
+![](img.png)
