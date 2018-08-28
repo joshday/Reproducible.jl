@@ -37,18 +37,6 @@ png(joinpath(builddir, "img.png"))
 
 ## Customized blocks
 
-```julia block
-import Markdown
-import Reproducible: blockfunction
-
-blockfunction(::Val{:juliamyblock}) = juliamyblock
-
-function juliamyblock(o::Markdown.Code, mod::Module)
-    @eval mod o.code
-    return "I eval-ed the code but I'm inserting nonsense into the document"
-end
-```
-
-```julia myblock
-rand(5)
+```julia custom
+x = 1
 ```
