@@ -1,5 +1,7 @@
 module Reproducible
 
+export juliablock, juliarepl, juliahide
+
 using Markdown
 
 """
@@ -41,12 +43,12 @@ function build(path::String, buildpath::String = joinpath(dirname(path), "build"
     mod = Main.eval(:(module Temp end))
     isdir(buildpath) && rm(buildpath; recursive=true, force=true)
     open(touch(joinpath(mkdir(buildpath), basename(path))), "w") do f
-        for item in md.content
-            write(f, isa(item, Markdown.Code) ? evalcode(item, mod) : Markdown.plain(item))
+        for x in md.content
+            # write(f, isa(item, Markdown.Code) ? evalcode(item, mod) : Markdown.plain(item))
+            write(f, isa(x, Markdown.Code) ? code2string(x, mod) : Markdown.plain(x))
             write(f, '\n')
         end
     end
-    md
 end
 
 # run the code in the block and return the outputs of each expression
@@ -93,22 +95,13 @@ function juliarepl(o, mod)
     return s
 end
 
-#-----------------------------------------------------------------------# evalcode
-function evalcode(o::Markdown.Code, mod) 
-    args = split(o.language)
-    length(args) == 1 && return Markdown.plain(o)
-    if args[1] == "julia"
-        args[2] == "hide" && return juliahide(o, mod)
-        args[2] == "block" && return juliablock(o, mod)
-        args[2] == "repl" && return juliarepl(o, mod)
-        @warn("code block argument not identified and was not eval-ed.")
-    end
-    @warn("code block isn't Julia and was not eval-ed")
-end
+blockfunction(::Val) = (code, mod) -> ""
+blockfunction(::Val{:juliablock}) = juliablock
+blockfunction(::Val{:juliarepl})  = juliarepl
+blockfunction(::Val{:juliahide})  = juliahide
 
-macro callfunction(args)
-    
+function code2string(code::Markdown.Code, mod::Module)
+    blockfunction(Val(Symbol(split(code.language)...)))(code, mod)
 end
-
 
 end # module
