@@ -71,7 +71,7 @@ function juliablock(o, mod)
     out = runcode(o, mod)
     s = Markdown.plain(o)
     if o.code[end] != ';' 
-        s *= "\n```\n$(out[end])\n```\n`"
+        s *= "\n```\n$(out[end])\n```\n"
     end
     return s
 end

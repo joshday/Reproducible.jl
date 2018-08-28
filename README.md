@@ -112,7 +112,7 @@ y = 2
 ```
 2
 ```
-`
+
 Here I'll use `julia block` to create a plot.  I'll end the block  with `;` to suppress the output, and then use `julia hide` to save my plot to my build directory.
 
 ```julia block
