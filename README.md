@@ -1,70 +1,44 @@
 # Reproducible
 
-A lightweight package for reproducible reports.  Takes a markdown file as input and
-generates a markdown file as output (with evaluated code blocks).
+Reproducible.jl is a lightweight (<100 lines!) package for creating markdown files with 
+evaluated julia code inserted into the document.
 
-The three kinds of code blocks are: `julia hide`, `julia block`, and `julia repl`.
+## Usage
 
-## `julia hide`
 
-- This:
+    Reproducible.build(path::String, buildpath::String = joinpath(dirname(path), "build"))
 
+Evaluate the `julia` code blocks in the markdown file specified by `path` and output the 
+document into `buildpath`.
+
+The following types of code blocks will be evaluated:
+
+- Show the block and the final return value
 ````
-```julia hide
-x = 1 
-y = 2
-```
-````
-
-- Inserts into the document:
-
-````
-<!-- ```julia hide 
+```julia block
 x = 1
 y = 2
-``` -->
-````
-
-## `julia block`
-
-- This:
-
-````
-```julia block
-x = 1 
-y = 2
 ```
 ````
 
-- Inserts into the document:
-````
-```julia block
-x = 2
-y = 2
-```
-
-```
-2
-```
-````
-
-## `julia repl`
-
-- This:
+- Treat the code as if it were entered into the Julia REPL
 
 ````
 ```julia repl
-x = 1 
+x = 1
+y = 2
+```
+```` 
+
+- Evaluate the code, but do not show the code or return value
+
+````
+```julia hide
+x = 1
 y = 2
 ```
 ````
 
-- Inserts into the document:
+## Example
 
-```
-julia> x = 1
-1
-
-julia> y = 2
-2
-```
+See [example/index.md](example/index.md)

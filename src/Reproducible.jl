@@ -2,6 +2,40 @@ module Reproducible
 
 using Markdown
 
+"""
+    Reproducible.build(path::String, buildpath::String = joinpath(dirname(path), "build"))
+
+Evaluate the `julia` code blocks in the markdown file specified by `path` and output the 
+document into `buildpath`.
+
+The following types of code blocks will be evaluated:
+
+- Show the block and the final return value
+````
+```julia block
+x = 1
+y = 2
+```
+````
+
+- Treat the code as if it were entered into the Julia REPL
+
+````
+```julia repl
+x = 1
+y = 2
+```
+```` 
+
+- Evaluate the code, but do not show the code or return value
+
+````
+```julia hide
+x = 1
+y = 2
+```
+````
+"""
 function build(path::String, buildpath::String = joinpath(dirname(path), "build"))
     md = Markdown.parse(read(path, String))
     mod = Main.eval(:(module Temp end))
@@ -26,12 +60,13 @@ function runcode(o::Markdown.Code, mod)
     out
 end
 
-#-----------------------------------------------------------------------# functions
+#-----------------------------------------------------------------------# juliahide
 function juliahide(o, mod) 
     runcode(o, mod)
     return "<!-- $(rstrip(Markdown.plain(o))) -->\n"
 end
 
+#-----------------------------------------------------------------------# juliablock
 function juliablock(o, mod) 
     out = runcode(o, mod)
     s = Markdown.plain(o)
@@ -41,6 +76,7 @@ function juliablock(o, mod)
     return s
 end
 
+#-----------------------------------------------------------------------# juliarepl
 function juliarepl(o, mod)
     s = "```\n"
     n = 1 
@@ -57,6 +93,7 @@ function juliarepl(o, mod)
     return s
 end
 
+#-----------------------------------------------------------------------# evalcode
 function evalcode(o::Markdown.Code, mod) 
     args = split(o.language)
     length(args) == 1 && return Markdown.plain(o)
@@ -69,6 +106,9 @@ function evalcode(o::Markdown.Code, mod)
     @warn("code block isn't Julia and was not eval-ed")
 end
 
+macro callfunction(args)
+    
+end
 
 
 end # module
