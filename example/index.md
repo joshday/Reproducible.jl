@@ -7,23 +7,23 @@ builddir = "/Users/joshday/.julia/dev/Reproducible/example/build"
 
 ## Getting Started
 
-This block executes each line as if it were in a Julia REPL.
-Use julia repl:
+Here is an example of using `julia repl`.
 
 ```julia repl 
 x = 1 
 y = 2
 ```
 
-This executes the block together and includes the output:
+Here is an example of using `julia block`.
 
 ```julia block
 x = 1 
 y = 2
 ```
 
-Here is a chunk of text
-And then I make a plot!
+Here I'll use `julia block` to create a plot.  I'll end the block 
+with `;` to suppress the output, and then use `julia hide` to save
+my plot to my build directory.
 
 ```julia block
 using Plots

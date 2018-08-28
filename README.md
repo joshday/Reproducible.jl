@@ -41,4 +41,88 @@ y = 2
 
 ## Example
 
-See [example/index.md](https://raw.githubusercontent.com/joshday/Reproducible.jl/master/example/index.md?token=AHs45sem4ZTFXF3HQ5wJIE1pHmAUAv1mks5bjukhwA%3D%3D)
+### Input
+
+````
+```julia hide
+using Reproducible, Plots
+builddir = "/Users/joshday/.julia/dev/Reproducible/example/build"
+```
+
+# My Title!
+
+## Getting Started
+
+Here is a `julia repl` block.
+
+```julia repl 
+x = 1 
+y = 2
+```
+
+Here is a `julia block` block.
+
+```julia block
+x = 1 
+y = 2
+```
+
+Here I'll make a plot and save it with a hidden block.
+
+```julia block
+using Plots
+plot(randn(100));
+```
+
+```julia hide
+png(joinpath(builddir, "img.png"))
+```
+
+![](img.png)
+````
+
+### Output
+
+````
+<!-- ```julia hide
+using Reproducible, Plots
+builddir = "/Users/joshday/.julia/dev/Reproducible/example/build"
+``` -->
+
+# My Title!
+
+## Getting Started
+
+Here is an example of using `julia repl`.
+
+```
+julia> x = 1 
+1
+
+julia> y = 2
+2
+```
+Here is an example of using `julia block`.
+
+```julia block
+x = 1 
+y = 2
+```
+
+```
+2
+```
+`
+Here I'll use `julia block` to create a plot.  I'll end the block  with `;` to suppress the output, and then use `julia hide` to save my plot to my build directory.
+
+```julia block
+using Plots
+plot(randn(100));
+```
+
+<!-- ```julia hide
+png(joinpath(builddir, "img.png"))
+``` -->
+
+![](img.png)
+````
