@@ -8,14 +8,14 @@ builddir = "/Users/joshday/.julia/dev/Reproducible/example/build"
 
 Here is an example of using `julia repl`.
 
-```julia repl 
+```julia
 x = 1 
 y = 2
 ```
 
 Here is an example of using `julia block`.
 
-```julia block
+```julia
 x = 1 
 y = 2
 ```
