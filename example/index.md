@@ -2,7 +2,7 @@
 builddir = "/Users/joshday/.julia/dev/Reproducible/example/build"
 ```
 
-# Running this example $(1 + 1)
+# Running this example
 
 To run this example, use
 
