@@ -1,4 +1,4 @@
-```julia; hide;
+```julia; block; hide=true;
 builddir = "/Users/joshday/.julia/dev/Reproducible/example/build"
 ```
 

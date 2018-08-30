@@ -21,8 +21,7 @@ function build(path::String, buildpath::String = joinpath(dirname(path), "build"
     run(`pandoc --standalone --from markdown --katex --to $to $file -o $output --css $css`)
 end
 
-
-
+#-----------------------------------------------------------------------# eval/render
 # parse and eval `code` into `mod`
 function eval_in(code::String, mod::Module)
     n = 1 
@@ -35,35 +34,38 @@ function eval_in(code::String, mod::Module)
     out  # Vector{Pair}: code => result
 end
 
-function repl(code, mod)
+function repl(code, mod; hook=identity)
     out = eval_in(code, mod)
     s = "```"
     for outi in out 
         s *= "\njulia> $(strip(outi[1]))\n$(outi[2])\n"
     end
-    s * "```\n"
+    hook(s * "```\n")
 end
-function block(code, mod)
+function block(code, mod; hide=false, hook=identity)
     out = eval_in(code, mod)
-    "```\n$code\n```\n\n```\n$(out[end][2])\n```"
+    hook(hide ? "" : "```\n$code\n```\n\n```\n$(out[end][2])\n```\n")
 end
-hide(code, mod) = (eval_in(code, mod); "")
 
 #-----------------------------------------------------------------------# code2string
 function code2string(o::Markdown.Code, mod::Module)
-    blocktype = Meta.parse(o.language)
-    if blocktype isa Symbol 
-        return Markdown.plain(o)
-    elseif blocktype isa Expr 
-        if blocktype.args[1] != :julia
-            return Markdown.plain(o)
-        else
-            f = blocktype.args[2]
-            f == :repl && return repl(o.code, mod)
-            f == :block && return block(o.code, mod)
-            f == :hide && return hide(o.code, mod)
-        end
+    x = Meta.parse(o.language)
+    x isa Symbol        && return Markdown.plain(o)
+    x.args[1] != :julia && return Markdown.plain(o)
+    kw = namedtuple(x.args[3:end])
+    try 
+        getfield(Reproducible, x.args[2])(o.code, mod; kw...)
+    catch
+        error("Attempted to treat code block with `$(x.args[2])`.  Use `block` or `repl`")
     end
+end
+
+# take vector of expressions like :(hide = true) and create a NamedTuple
+function namedtuple(args::Vector)
+    prs = [Pair(a.args[1], a.args[2]) for a in args]
+    names = tuple([p[1] for p in prs]...)
+    tup = tuple([p[2] for p in prs]...)
+    NamedTuple{names, typeof(tup)}(tup)
 end
 
 end # module
