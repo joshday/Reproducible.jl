@@ -2,6 +2,16 @@
 builddir = "/Users/joshday/.julia/dev/Reproducible/example/build"
 ```
 
+# Running this example
+
+To run this example, use
+
+```julia
+using Reproducible
+
+Reproducible.build("index.md")
+```
+
 # Example on using Reproducible.jl
 
 Here is some math:
