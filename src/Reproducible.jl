@@ -8,17 +8,24 @@ function build(path::String;
         css = "http://b.enjam.info/panam/styling.css")
     mod = Main.eval(:(module __Temp__ end))
     @eval mod using Reproducible
-    md = Markdown.parse(read(path, String))
     isdir(buildpath) && rm(buildpath; recursive=true, force=true)
     file = touch(joinpath(mkdir(buildpath), basename(path)))
     open(file, "w") do io
-        for x in md.content
-            write(io, isa(x, Markdown.Code) ? code2string(x, mod) : Markdown.plain(x))
+        for x in Markdown.parse(read(path, String)).content
+            write(io, markdown2string(x, mod))
             write(io, '\n')
         end
     end
     output = file[1:(end-3)] * ".$to"
     run(`pandoc --standalone --from markdown --katex --to $to $file -o $output --css $css`)
+end
+
+function markdown2string(x, mod)
+    if isa(x, Markdown.Code) 
+        code2string(x, mod)
+    else
+        Markdown.plain(x)
+    end
 end
 
 #-----------------------------------------------------------------------# eval/render
