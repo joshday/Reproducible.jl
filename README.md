@@ -9,7 +9,7 @@ Markdown -> Markdown with interpolated code -> Pandoc
 
 ## Usage
 
-```
+```julia
 import Reproducible
 
 Reproducible.build(path; buildpath, css, to)
