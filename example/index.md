@@ -16,16 +16,23 @@ This code block uses `julia`, and does not get eval-ed
 x = 1 
 y = 2
 ```
-Compare that with this:
+Compare that with this block, which uses `julia; repl;`
 
 ```julia; repl;
 x = 1 
 y = 2
 ```
 
+Compare that with this block, which uses `julia; block;`
+
+```julia; block;
+x = 1 
+y = 2
+```
+
 ## Markdown Stuff
 
-| LJ | RJ |
-|:---|---:|
-| 1  | 1  |
-| 2  | 2  |
+| Left Justified | Right Justified |
+|:---------------|----------------:|
+| I'm left       | I'm right       |
+| 1              | 2               |

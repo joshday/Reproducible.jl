@@ -5,7 +5,7 @@ using Markdown
 function build(path::String, buildpath::String = joinpath(dirname(path), "build"); 
         to = :html, 
         style = joinpath(@__DIR__(), "..", "styles", "github.css"),
-        css = "https://raw.githubusercontent.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css")
+        css = "http://b.enjam.info/panam/styling.css")
     mod = Main.eval(:(module __Temp__ end))
     @eval mod using Reproducible
     md = Markdown.parse(read(path, String))
@@ -18,7 +18,7 @@ function build(path::String, buildpath::String = joinpath(dirname(path), "build"
         end
     end
     output = file[1:(end-3)] * ".$to"
-    run(`pandoc --from markdown --katex --to $to $file -o $output --css $css`)
+    run(`pandoc --standalone --from markdown --katex --to $to $file -o $output --css $css`)
 end
 
 
@@ -35,14 +35,6 @@ function eval_in(code::String, mod::Module)
     out  # Vector{Pair}: code => result
 end
 
-# knitr options
-    # eval        # should the code be evaluated?
-    # echo        # should source be included?
-    # include     # should return be included?
-    # hook        # function to turn the output result into a string
-    # collapse    # should source and return value go in the same markdown code block?
-    # custom      # f(code::String, mod::Module) that overwrites all other options
-
 function repl(code, mod)
     out = eval_in(code, mod)
     s = "```"
@@ -51,7 +43,11 @@ function repl(code, mod)
     end
     s * "```\n"
 end
-
+function block(code, mod)
+    out = eval_in(code, mod)
+    "```\n$code\n```\n\n```\n$(out[end][2])\n```"
+end
+hide(code, mod) = (eval_in(code, mod); "")
 
 #-----------------------------------------------------------------------# code2string
 function code2string(o::Markdown.Code, mod::Module)
@@ -62,7 +58,10 @@ function code2string(o::Markdown.Code, mod::Module)
         if blocktype.args[1] != :julia
             return Markdown.plain(o)
         else
-            repl(o.code, mod)
+            f = blocktype.args[2]
+            f == :repl && return repl(o.code, mod)
+            f == :block && return block(o.code, mod)
+            f == :hide && return hide(o.code, mod)
         end
     end
 end
