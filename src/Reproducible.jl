@@ -2,9 +2,9 @@ module Reproducible
 
 using Markdown
 
-function build(path::String, buildpath::String = joinpath(dirname(path), "build"); 
+function build(path::String;
+        buildpath::String = joinpath(dirname(path), "build"),
         to = :html, 
-        style = joinpath(@__DIR__(), "..", "styles", "github.css"),
         css = "http://b.enjam.info/panam/styling.css")
     mod = Main.eval(:(module __Temp__ end))
     @eval mod using Reproducible
