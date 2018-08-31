@@ -43,7 +43,6 @@ code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Ann
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
-  <link rel="stylesheet" href="http://b.enjam.info/panam/styling.css" type="text/css" />
 </head>
 <body>
 <div id="TOC">
@@ -74,7 +73,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><code>opts = nothing</code>: (String) Additional arguments passed to the <code>pandoc</code> command</li>
 <li><code>css = &quot;http://b.enjam.info/panam/styling.css&quot;</code>: Path/URL to css file</li>
 </ul>
-<p>Note: this page is built by running <code>Reproducible.build(&quot;example/index.md&quot;; builddir = &quot;docs&quot;)</code> from the repo directory.</p>
+<p>Note: this page is built by running <code>Reproducible.build(&quot;example/index.md&quot;; builddir=&quot;docs&quot;, css=nothing)</code> from the repo directory.</p>
 <h1 id="markdown">Markdown</h1>
 <p>Reproducible uses Julia's built in <code>Markdown</code> package to parse a markdown file, so any valid markdown syntax is fair game.</p>
 <table>

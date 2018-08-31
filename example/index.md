@@ -17,7 +17,7 @@
 - `opts = nothing`: (String) Additional arguments passed to the `pandoc` command
 - `css = "http://b.enjam.info/panam/styling.css"`: Path/URL to css file
 
-Note: this page is built by running `Reproducible.build("example/index.md"; builddir = "docs")`
+Note: this page is built by running `Reproducible.build("example/index.md"; builddir="docs", css=nothing)`
 from the repo directory.
 
 # Markdown
