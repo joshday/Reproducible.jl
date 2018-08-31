@@ -1,48 +1,64 @@
-```julia; block; hide=true;
-builddir = "/Users/joshday/.julia/dev/Reproducible/example/build"
-```
+# Reproducible.jl
 
-# Running this example
+1. Write markdown
+2. Evaluate/interpolate code blocks
+3. Pandoc it 
 
-To run this example, use
+# Usage 
 
-```julia
-using Reproducible
+`Reproducible.build(path_to_md; kwargs...)`
 
-Reproducible.build("index.md")
-```
+`kywargs` can be 
 
-# Example on using Reproducible.jl
+- `builddir`: Directory to build the output (will get replaced if it exists)
+- `to = :html`: Format of the output file
+- `math = :katex`: Which math renderer to use (`:katex`, `:markdown`, or `nothing`)
+- `toc = true`:  Add a table of contents?
+- `opts = nothing`: (String) Additional arguments passed to the `pandoc` command
+- `css = "http://b.enjam.info/panam/styling.css"`: Path/URL to css file
 
-Here is some math:
+Note: this page is built by running `Reproducible.build("example/index.md"; builddir = "docs")`
+from the repo directory.
 
-\$\$ f(x) = x ^ 2 \$\$
+# Markdown
 
-## Getting Started
+Reproducible uses Julia's built in `Markdown` package to parse a markdown file, so any 
+valid markdown syntax is fair game.
 
-This code block uses `julia`, and does not get eval-ed
+| Here | is | a | table |
+|------|----|---|-------|
+| A    | B  | C | D     |
 
-```julia
+- Here
+- is
+- a
+- list
+
+
+# Code Blocks
+
+Suppose our input document has this:
+````
+```julia; <fun>
 x = 1 
 y = 2
 ```
-Compare that with this block, which uses `julia; repl;`
+````
+
+
+## `repl`
 
 ```julia; repl;
-x = 1 
+x = 1
+y = 2 
+```
+
+## `block`
+
+```julia; block
+x = 1
 y = 2
 ```
 
-Compare that with this block, which uses `julia; block;`
 
-```julia; block;
-x = 1 
-y = 2
-```
 
-## Markdown Stuff
-
-| Left Justified | Right Justified |
-|:---------------|----------------:|
-| I'm left       | I'm right       |
-| 1              | 2               |

@@ -2,22 +2,26 @@ module Reproducible
 
 using Markdown
 
-function build(path::String;
-        buildpath::String = joinpath(dirname(path), "build"),
-        to = :html, 
-        css = "http://b.enjam.info/panam/styling.css")
+function build(path::String; builddir::String = joinpath(dirname(path), "build"), to = :html, 
+        css = "http://b.enjam.info/panam/styling.css", math = :katex, toc = true, opts=nothing)
     mod = Main.eval(:(module __Temp__ end))
     @eval mod using Reproducible
-    isdir(buildpath) && rm(buildpath; recursive=true, force=true)
-    file = touch(joinpath(mkdir(buildpath), basename(path)))
+    isdir(builddir) && rm(builddir; recursive=true, force=true)
+    file = touch(joinpath(mkdir(builddir), basename(path)))
     open(file, "w") do io
         for x in Markdown.parse(read(path, String)).content
-            write(io, markdown2string(x, mod))
-            write(io, '\n')
+            write(io, markdown2string(x, mod) * '\n')
         end
     end
-    output = file[1:(end-3)] * ".$to"
-    run(`pandoc --standalone --from markdown --katex --to $to $file -o $output --css $css`)
+    output = replace(file, ".md" => ".$to")
+    # cmd = `pandoc --standalone --from markdown --to $to -o`
+    # run(`pandoc --standalone --from markdown --katex --to $to $file -o $output --css $css`)
+    cmd = []
+    math != nothing && push!(cmd, "--$math")
+    css != nothing && append!(cmd, ["--css", css])
+    toc && push!(cmd, "--toc")
+    opts != nothing && append!(cmd, split(opts))
+    run(`pandoc -s -o $output $cmd $file`)
 end
 
 function markdown2string(x, mod)
@@ -43,7 +47,7 @@ end
 
 function repl(code, mod; hook=identity)
     out = eval_in(code, mod)
-    s = "```"
+    s = "```julia"
     for outi in out 
         s *= "\njulia> $(strip(outi[1]))\n$(outi[2])\n"
     end
@@ -57,13 +61,14 @@ end
 #-----------------------------------------------------------------------# code2string
 function code2string(o::Markdown.Code, mod::Module)
     x = Meta.parse(o.language)
+    x isa Nothing       && return Markdown.plain(o)
     x isa Symbol        && return Markdown.plain(o)
     x.args[1] != :julia && return Markdown.plain(o)
     kw = namedtuple(x.args[3:end])
     try 
         getfield(Reproducible, x.args[2])(o.code, mod; kw...)
     catch
-        error("Attempted to treat code block with `$(x.args[2])`.  Use `block` or `repl`")
+        @warn("Attempted to treat code block with `$(x.args[2])`.  Use `block` or `repl`")
     end
 end
 
