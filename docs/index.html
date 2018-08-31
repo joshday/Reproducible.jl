@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="http://b.enjam.info/panam/styling.css" type="text/css" />
+</head>
+<body>
+<div id="TOC">
+<ul>
+<li><a href="#reproducible.jl">Reproducible.jl</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#markdown">Markdown</a></li>
+<li><a href="#code-blocks">Code Blocks</a><ul>
+<li><a href="#repl"><code>repl</code></a></li>
+<li><a href="#block"><code>block</code></a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="reproducible.jl">Reproducible.jl</h1>
+<ol style="list-style-type: decimal">
+<li>Write markdown</li>
+<li>Evaluate/interpolate code blocks</li>
+<li>Pandoc it</li>
+</ol>
+<h1 id="usage">Usage</h1>
+<p><code>Reproducible.build(path_to_md; kwargs...)</code></p>
+<p><code>kywargs</code> can be</p>
+<ul>
+<li><code>builddir</code>: Directory to build the output (will get replaced if it exists)</li>
+<li><code>to = :html</code>: Format of the output file</li>
+<li><code>math = :katex</code>: Which math renderer to use (<code>:katex</code>, <code>:markdown</code>, or <code>nothing</code>)</li>
+<li><code>toc = true</code>: Add a table of contents?</li>
+<li><code>opts = nothing</code>: (String) Additional arguments passed to the <code>pandoc</code> command</li>
+<li><code>css = &quot;http://b.enjam.info/panam/styling.css&quot;</code>: Path/URL to css file</li>
+</ul>
+<p>Note: this page is built by running <code>Reproducible.build(&quot;example/index.md&quot;; builddir = &quot;docs&quot;)</code> from the repo directory.</p>
+<h1 id="markdown">Markdown</h1>
+<p>Reproducible uses Julia's built in <code>Markdown</code> package to parse a markdown file, so any valid markdown syntax is fair game.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Here</th>
+<th align="right">is</th>
+<th align="right">a</th>
+<th align="right">table</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">A</td>
+<td align="right">B</td>
+<td align="right">C</td>
+<td align="right">D</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Here</li>
+<li>is</li>
+<li>a</li>
+<li>list</li>
+</ul>
+<h1 id="code-blocks">Code Blocks</h1>
+<p>Suppose our input document has this:</p>
+<pre><code>```julia; &lt;fun&gt;
+x = 1 
+y = 2
+```</code></pre>
+<h2 id="repl"><code>repl</code></h2>
+<div class="sourceCode"><pre class="sourceCode julia"><code class="sourceCode julia">julia&gt; x = <span class="fl">1</span>
+<span class="fl">1</span>
+
+julia&gt; y = <span class="fl">2</span>
+<span class="fl">2</span></code></pre></div>
+<h2 id="block"><code>block</code></h2>
+<pre><code>x = 1
+y = 2</code></pre>
+<pre><code>2</code></pre>
+</body>
+</html>
