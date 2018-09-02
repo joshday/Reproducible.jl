@@ -24,26 +24,32 @@ valid markdown syntax is fair game.
 - a
 - list
 
+```julia
+# here is some julia code with syntax highlighting
+
+f(x) = x ^ 2
+```
+
 
 # Code Blocks
 
 Suppose our input document has this:
 ````
-```julia; <fun>
+```julia; fun
 x = 1 
 y = 2
 ```
 ````
 
 
-## `repl`
+## `fun == repl`
 
 ```julia; repl;
 x = 1
 y = 2 
 ```
 
-## `block`
+## `fun == block`
 
 ```julia; block
 x = 1

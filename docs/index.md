@@ -23,18 +23,24 @@ Reproducible uses Julia's built in `Markdown` package to parse a markdown file, 
   * a
   * list
 
+```julia
+# here is some julia code with syntax highlighting
+
+f(x) = x ^ 2
+```
+
 # Code Blocks
 
 Suppose our input document has this:
 
 ````
-```julia; <fun>
+```julia; fun
 x = 1 
 y = 2
 ```
 ````
 
-## `repl`
+## `fun == repl`
 
 ```julia
 julia> x = 1
@@ -44,7 +50,7 @@ julia> y = 2
 2
 ```
 
-## `block`
+## `fun == block`
 
 ```
 x = 1
