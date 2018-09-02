@@ -4,8 +4,8 @@ using Markdown
 
 function build(path::String, builddir::String = joinpath(dirname(path), "build"))
     mod = Main.eval(:(module __Temp__ end))
-    isdir(builddir) && rm(builddir; recursive=true, force=true)
-    file = touch(joinpath(mkdir(builddir), basename(path)))
+    !isdir(builddir) && mkdir(builddir)
+    file = touch(joinpath(builddir, basename(path)))
     open(file, "w") do io
         for x in Markdown.parse(read(path, String)).content
             write(io, markdown2string(x, mod) * '\n')

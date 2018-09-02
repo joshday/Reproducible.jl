@@ -2,7 +2,6 @@
 
 1. Write markdown
 2. Evaluate/interpolate code blocks
-3. Pandoc it 
 
 # Usage 
 
