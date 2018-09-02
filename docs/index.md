@@ -6,18 +6,9 @@
 
 # Usage
 
-`Reproducible.build(path_to_md; kwargs...)`
+`Reproducible.build(source, builddir = joinpath(dirname(source), "build"))`
 
-`kywargs` can be 
-
-  * `builddir`: Directory to build the output (will get replaced if it exists)
-  * `to = :html`: Format of the output file
-  * `math = :katex`: Which math renderer to use (`:katex`, `:markdown`, or `nothing`)
-  * `toc = true`:  Add a table of contents?
-  * `opts = nothing`: (String) Additional arguments passed to the `pandoc` command
-  * `css = "http://b.enjam.info/panam/styling.css"`: Path/URL to css file
-
-Note: this page is built by running `Reproducible.build("example/index.md"; builddir="docs", css=nothing)` from the repo directory.
+Note: this page is built by running `Reproducible.build("example/index.md", "docs")`.
 
 # Markdown
 

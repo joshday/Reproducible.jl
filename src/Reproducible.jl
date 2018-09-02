@@ -2,10 +2,8 @@ module Reproducible
 
 using Markdown
 
-function build(path::String; builddir::String = joinpath(dirname(path), "build"), to = :html, 
-        css = "http://b.enjam.info/panam/styling.css", math = :katex, toc = true, opts=nothing)
+function build(path::String, builddir::String = joinpath(dirname(path), "build"))
     mod = Main.eval(:(module __Temp__ end))
-    @eval mod using Reproducible
     isdir(builddir) && rm(builddir; recursive=true, force=true)
     file = touch(joinpath(mkdir(builddir), basename(path)))
     open(file, "w") do io
@@ -13,15 +11,7 @@ function build(path::String; builddir::String = joinpath(dirname(path), "build")
             write(io, markdown2string(x, mod) * '\n')
         end
     end
-    output = replace(file, ".md" => ".$to")
-    # cmd = `pandoc --standalone --from markdown --to $to -o`
-    # run(`pandoc --standalone --from markdown --katex --to $to $file -o $output --css $css`)
-    cmd = []
-    math != nothing && push!(cmd, "--$math")
-    css != nothing && append!(cmd, ["--css", css])
-    toc && push!(cmd, "--toc")
-    opts != nothing && append!(cmd, split(opts))
-    run(`pandoc -s -o $output $cmd $file`)
+    return file
 end
 
 function markdown2string(x, mod)
