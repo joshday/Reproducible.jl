@@ -1,6 +1,6 @@
 # Reproducible
 
-Reproducible.jl is a lightweight (<100 lines!) package for creating reproducible reports.
+Reproducible.jl is a lightweight package for creating reproducible reports in Julia.
 
 ## Process 
 

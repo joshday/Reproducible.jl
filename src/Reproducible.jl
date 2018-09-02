@@ -35,17 +35,17 @@ function eval_in(code::String, mod::Module)
     out  # Vector{Pair}: code => result
 end
 
-function repl(code, mod; hook=identity)
+function repl(code, mod)
     out = eval_in(code, mod)
     s = "```julia"
     for outi in out 
         s *= "\njulia> $(strip(outi[1]))\n$(outi[2])\n"
     end
-    hook(s * "```\n")
+    s * "```\n"
 end
-function block(code, mod; hide=false, hook=identity)
+function block(code, mod; hide=false)
     out = eval_in(code, mod)
-    hook(hide ? "" : "```\n$code\n```\n\n```\n$(out[end][2])\n```\n")
+    hide ? "" : "```\n$code\n```\n\n```\n$(out[end][2])\n```\n"
 end
 
 #-----------------------------------------------------------------------# code2string
