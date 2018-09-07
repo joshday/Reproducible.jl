@@ -2,7 +2,8 @@ module Reproducible
 
 using Markdown
 
-function build(path::String, builddir::String = joinpath(dirname(path), "build"))
+#-----------------------------------------------------------------------# build
+function build(path::String, builddir = joinpath(dirname(path), "build"))
     mod = Main.eval(:(module __Temp__ end))
     !isdir(builddir) && mkdir(builddir)
     file = touch(joinpath(builddir, basename(path)))
@@ -14,17 +15,38 @@ function build(path::String, builddir::String = joinpath(dirname(path), "build")
     return file
 end
 
-function markdown2string(x, mod)
-    if isa(x, Markdown.Code) 
-        code2string(x, mod)
+function build(paths, builddir = joinpath(dirname(paths[1]), "build"))
+    files = []
+    for path in paths 
+        push!(files, build(path, builddir))
+    end
+    files
+end
+
+function markdown2string(x, mod) 
+    if isa(x, Markdown.Code)
+        isa(Meta.parse(x.language), Symbol) ? Markdown.plain(x) : code2string(x, mod)
     else
         Markdown.plain(x)
     end
 end
 
-#-----------------------------------------------------------------------# eval/render
-# parse and eval `code` into `mod`
-function eval_in(code::String, mod::Module)
+function code2string(x::Markdown.Code, mod::Module)
+    cb = CodeBlock(x.code, mod)
+    @show v = Val(Meta.parse(x.language).args[end])
+    render(cb, v)
+end
+#-----------------------------------------------------------------------# CodeBlock
+"""
+    CodeBlock(code::String, mod::Module)
+
+Object to represent parsed and evaluated markdown code blocks.  The constructor parses and 
+evaluates `code` into `mod` and stores a Vector of pairs `codestring => eval(parse(codestring))`.
+"""
+struct CodeBlock
+    out::Vector{Pair{String, Any}}
+end
+function CodeBlock(code::String, mod::Module)
     n = 1 
     out = Pair{String,Any}[]  
     while n < length(code)
@@ -32,42 +54,28 @@ function eval_in(code::String, mod::Module)
         ex, n = Meta.parse(code, n)
         push!(out, code[nold:n-1] => @eval(mod, $ex))
     end
-    out  # Vector{Pair}: code => result
+    CodeBlock(out)
 end
 
-function repl(code, mod)
-    out = eval_in(code, mod)
-    s = "```julia"
-    for outi in out 
-        s *= "\njulia> $(strip(outi[1]))\n$(outi[2])\n"
+# utils
+codestring(o::CodeBlock) = join(first.(o.out))
+juliablock(s::String) = "```julia\n$(strip(s))\n```\n"
+block(s::String) = "```\n$(strip(s))\n```\n"
+
+#-----------------------------------------------------------------------# renderers
+render(o::CodeBlock, r::Val{:julia}) = juliablock(codestring(o))
+render(o::CodeBlock, r::Val{:hide}) = ""
+
+function render(o::CodeBlock, r::Val{:block})
+    juliablock(codestring(o)) * "\n" * block(string(last(o.out[end])))
+end
+
+function render(o::CodeBlock, r::Val{:repl})
+    s = ""
+    for ex in o.out
+        s *= "julia> " * strip(first(ex)) * '\n' * string(last(ex)) * "\n\n"
     end
-    s * "```\n"
-end
-function block(code, mod; hide=false)
-    out = eval_in(code, mod)
-    hide ? "" : "```\n$code\n```\n\n```\n$(out[end][2])\n```\n"
-end
-
-#-----------------------------------------------------------------------# code2string
-function code2string(o::Markdown.Code, mod::Module)
-    x = Meta.parse(o.language)
-    x isa Nothing       && return Markdown.plain(o)
-    x isa Symbol        && return Markdown.plain(o)
-    x.args[1] != :julia && return Markdown.plain(o)
-    kw = namedtuple(x.args[3:end])
-    try 
-        getfield(Reproducible, x.args[2])(o.code, mod; kw...)
-    catch
-        @warn("Attempted to treat code block with `$(x.args[2])`.  Use `block` or `repl`")
-    end
-end
-
-# take vector of expressions like :(hide = true) and create a NamedTuple
-function namedtuple(args::Vector)
-    prs = [Pair(a.args[1], a.args[2]) for a in args]
-    names = tuple([p[1] for p in prs]...)
-    tup = tuple([p[2] for p in prs]...)
-    NamedTuple{names, typeof(tup)}(tup)
+    juliablock(s)
 end
 
 end # module

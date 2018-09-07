@@ -5,9 +5,7 @@
 
 # Usage
 
-`Reproducible.build(source, builddir = joinpath(dirname(source), "build"))`
-
-Note: this page is built by running `Reproducible.build("example/index.md", "docs")`.
+`Reproducible.build(source)`
 
 # Markdown
 
@@ -30,16 +28,36 @@ f(x) = x ^ 2
 
 # Code Blocks
 
-Suppose our input document has this:
+Everything in the original source markdown file is treated as normal markdown, apart from  code blocks.  If a code block's language is `julia; <renderer>`, **Reproducible** will  evaluate the code block and insert something into the output document based on the `renderer`.
 
-````
-```julia; fun
+## `julia;`
+
+Evaluate the block, but do not return output.
+
+```julia
 x = 1 
 y = 2
 ```
-````
 
-## `fun == repl`
+## `julia; hide;`
+
+Evaluate and hide the block
+
+
+## `julia; block;`
+
+Evaluate the block and also render the final value as an output.
+
+```julia
+x = 1 
+y = 2
+```
+
+```
+2
+```
+
+## `julia; repl;`
 
 ```julia
 julia> x = 1
@@ -49,14 +67,17 @@ julia> y = 2
 2
 ```
 
-## `fun == block`
+Treat the block as if it was entered into the Julia REPL.
 
-```
-x = 1
-y = 2
+## Custom Renderers
+
+Reproducible creates a `CodeBlock` object from markdown code blocks.  `CodeBlock` is an  object that stores a vector of pairs that are essentially `codestring => eval(parse(codestring))`.
+
+To create a custom renderer, you must overload
+
+```julia
+Reproducible.render(o::CodeBlock, r::Val{myrenderer})
 ```
 
-```
-2
-```
+which should return the String that you wish to be inserted into the output document.
 
