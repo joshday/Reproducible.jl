@@ -1,11 +1,6 @@
-# Reproducible.jl
-
-1. Write markdown
-2. Evaluate/interpolate code blocks
-
 # Usage
 
-`Reproducible.build(source)`
+`Reproducible.build(source, <builddir>)`
 
 # Markdown
 
@@ -71,7 +66,7 @@ Treat the block as if it was entered into the Julia REPL.
 
 ## Custom Renderers
 
-Reproducible creates a `CodeBlock` object from markdown code blocks.  `CodeBlock` is an  object that stores a vector of pairs that are essentially `codestring => eval(parse(codestring))`.
+**Reproducible** creates a `CodeBlock` object from markdown code blocks.  `CodeBlock` is an  object that stores a vector of pairs that are essentially `codestring => eval(parse(codestring))`.
 
 To create a custom renderer, you must overload
 
