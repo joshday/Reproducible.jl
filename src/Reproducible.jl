@@ -47,8 +47,14 @@ end
 """
     CodeBlock(code::String, mod::Module)
 
-Object to represent parsed and evaluated markdown code blocks.  The constructor parses and 
-evaluates `code` into `mod` and stores a Vector of pairs `codestring => eval(parse(codestring))`.
+Object to represent code for a **Reproducible** renderer.  The constructor parses/evaluates
+the code inside the provided module.  A `CodeBlock` is a wrapper around a vector of pairs
+where each element is:
+
+    codestring => eval(parse(codestring))
+
+This allows renderers to have access to all of the inputs and outputs of a code block.  
+For docs on writing a new renderer, see [`render`](@ref).
 """
 struct CodeBlock
     out::Vector{Pair{String, Any}}
@@ -70,6 +76,20 @@ juliablock(s::String) = "```julia\n$(strip(s))\n```\n"
 block(s::String) = "```\n$(strip(s))\n```\n"
 
 #-----------------------------------------------------------------------# renderers
+"""
+    render(o::CodeBlock, r::Val{:renderer})::String
+
+Render a [`CodeBlock`](@ref) for the given `:renderer`, which can be used via
+
+    ```julia; renderer;
+    ...
+    ```
+"""
+function render(o::CodeBlock, r::Val{T}) where {T}
+    @warn "Reproducible does not recognize the renderer $T.  Code block not evaled."
+    block(codestring(o))
+end
+
 render(o::CodeBlock, r::Val{:julia}) = juliablock(codestring(o))
 render(o::CodeBlock, r::Val{:hide}) = ""
 
