@@ -25,7 +25,7 @@ end
 
 function markdown2string(x, mod) 
     if isa(x, Markdown.Code)
-        isa(Meta.parse(x.language), Symbol) ? Markdown.plain(x) : code2string(x, mod)
+        isa(Meta.parse(x.language), Expr) ? code2string(x, mod) : Markdown.plain(x)
     else
         Markdown.plain(x)
     end

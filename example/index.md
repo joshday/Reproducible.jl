@@ -4,7 +4,7 @@
 
 # Markdown
 
-Reproducible uses Julia's built in `Markdown` package to parse a markdown file, so any 
+Reproducible uses Julia's standard libarary `Markdown` package to parse a markdown file, so any 
 valid markdown syntax is fair game.
 
 | Here | is | a | table |
@@ -73,7 +73,7 @@ object that stores a vector of pairs that are essentially `codestring => eval(pa
 To create a custom renderer so that you can use 
 
 ````
-```myrenderer
+```julia; myrenderer;
 ...
 ```
 ````
