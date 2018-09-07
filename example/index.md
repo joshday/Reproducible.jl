@@ -70,7 +70,15 @@ Treat the block as if it was entered into the Julia REPL.
 **Reproducible** creates a `CodeBlock` object from markdown code blocks.  `CodeBlock` is an 
 object that stores a vector of pairs that are essentially `codestring => eval(parse(codestring))`.
 
-To create a custom renderer, you must overload
+To create a custom renderer so that you can use 
+
+````
+```myrenderer
+...
+```
+````
+
+you must overload
 
 ```julia
 Reproducible.render(o::CodeBlock, r::Val{myrenderer})
