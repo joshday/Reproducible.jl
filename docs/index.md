@@ -25,7 +25,7 @@ f(x) = x ^ 2
 
 Everything in the original source markdown file is treated as normal markdown, apart from  code blocks.  If a code block's language is `julia; <renderer>`, **Reproducible** will  evaluate the code block and insert something into the output document based on the `renderer`.
 
-## `julia;`
+  * `julia;`
 
 Evaluate the block, but do not return output.
 
@@ -34,12 +34,12 @@ x = 1
 y = 2
 ```
 
-## `julia; hide;`
+  * `julia; hide;`
 
 Evaluate and hide the block
 
 
-## `julia; block;`
+  * `julia; block;`
 
 Evaluate the block and also render the final value as an output.
 
@@ -52,7 +52,7 @@ y = 2
 2
 ```
 
-## `julia; repl;`
+  * `julia; repl;`
 
 ```julia
 julia> x = 1
