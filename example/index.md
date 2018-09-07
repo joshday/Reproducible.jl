@@ -109,17 +109,16 @@ and the input document contained
 
 ````
 ```julia;thing;
-x = 1
-y = 2
-x + y
+1 + 1
+2 + 2
 ```
 ````
 
 the output would look like:
 
 ```julia; thing;
-x = 1 
-y = 2
+1 + 1
+2 + 2
 ```
 
 # Languages Other Than Julia

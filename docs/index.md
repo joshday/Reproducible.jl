@@ -107,19 +107,18 @@ and the input document contained
 
 ````
 ```julia;thing;
-x = 1
-y = 2
-x + y
+1 + 1
+2 + 2
 ```
 ````
 
 the output would look like:
 
 ```
-The first line of your code was x = 1
+The first line of your code was 1 + 1
 ```
 ```
-The output of of that line was 1
+The output of of that line was 2
 ```
 
 # Languages Other Than Julia
