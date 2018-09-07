@@ -4,7 +4,7 @@
 
 # Markdown
 
-Reproducible uses Julia's standard libarary `Markdown` package to parse a markdown file, so any 
+Reproducible uses Julia's standard library `Markdown` package to parse a markdown file, so any 
 valid markdown syntax is fair game.
 
 | Here | is | a | table |
