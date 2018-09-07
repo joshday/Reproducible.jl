@@ -65,7 +65,7 @@ y = 2
 
 Treat the block as if it was entered into the Julia REPL.
 
-## Custom Renderers
+# Custom Renderers
 
 **Reproducible** creates a `CodeBlock` object from markdown code blocks.  `CodeBlock` is an 
 object that stores a vector of pairs that are essentially `codestring => eval(parse(codestring))`.
@@ -81,7 +81,61 @@ To create a custom renderer so that you can use
 you must overload
 
 ```julia
-Reproducible.render(o::CodeBlock, r::Val{myrenderer})
+Reproducible.render(o::CodeBlock, r::Val{:myrenderer})
 ```
 
 which should return the String that you wish to be inserted into the output document.
+
+## Custom Renderer Example
+
+If you were to run this in a Julia session before calling `Reproducible.build`
+
+```julia
+import Reproducible
+
+function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing})
+    """
+    ```
+    The first line of your code was $(strip((o.out[1][1])))
+    ```
+    ```
+    The output of of that line was $(o.out[1][2])
+    ```
+    """
+end
+```
+
+and the input document contained
+
+````
+```julia;thing;
+x = 1
+y = 2
+x + y
+```
+````
+
+the output would look like:
+
+```julia; thing;
+x = 1 
+y = 2
+```
+
+# Languages Other Than Julia
+
+Other languages will be left alone, but there's no reason the approach of **Reproducible**
+could not be extended via [PyCall](https://github.com/JuliaPy/PyCall.jl), 
+[RCall](https://github.com/JuliaInterop/RCall.jl), etc.
+
+- Input file:
+````
+```python
+import pandas as pd
+```
+````
+- Output file:
+  
+```python
+import pandas as pd
+```

@@ -6,6 +6,7 @@ using Markdown
 function build(path::String, builddir = joinpath(dirname(path), "build"))
     mod = Main.eval(:(module __Temp__ end))
     !isdir(builddir) && mkdir(builddir)
+    # isfile(joinpath(builddir, basename(path))) && rm(joinpath(builddir, basename(path)))
     file = touch(joinpath(builddir, basename(path)))
     open(file, "w") do io
         for x in Markdown.parse(read(path, String)).content
@@ -32,9 +33,15 @@ function markdown2string(x, mod)
 end
 
 function code2string(x::Markdown.Code, mod::Module)
-    cb = CodeBlock(x.code, mod)
-    @show v = Val(Meta.parse(x.language).args[end])
-    render(cb, v)
+    ex = Meta.parse(x.language)
+    lang = ex.args[1]
+    if lang == :julia
+        v = Val(Meta.parse(x.language).args[end])
+        render(CodeBlock(x.code, mod), v)
+    else
+        @warn "Reproducible doesn't know how to eval a code block with language $lang...skipping"
+        Markdown.plain(x)
+    end
 end
 #-----------------------------------------------------------------------# CodeBlock
 """
