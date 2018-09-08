@@ -3,13 +3,13 @@ module Reproducible
 using Markdown
 
 #-----------------------------------------------------------------------# build
-function build(path::String, builddir = joinpath(dirname(path), "build"); frontmatter="")
+function build(path::String, builddir = joinpath(dirname(path), "build"); frontmatter::String = "")
     mod = Main.eval(:(module __Temp__ end))
     !isdir(builddir) && mkdir(builddir)
     # isfile(joinpath(builddir, basename(path))) && rm(joinpath(builddir, basename(path)))
     file = touch(joinpath(builddir, basename(path)))
     open(file, "w") do io
-        write(io, "---\n$(strip(frontmatter))\n---\n\n")
+        !isempty(frontmatter) && write(io, "---\n$(strip(frontmatter))\n---\n\n")
         for x in Markdown.parse(read(path, String)).content
             write(io, markdown2string(x, mod) * '\n')
         end

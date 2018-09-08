@@ -1,6 +1,6 @@
 # Usage 
 
-`Reproducible.build(source, <builddir>)`
+`Reproducible.build(source, <builddir>; frontmatter="")`
 
 # Markdown
 
