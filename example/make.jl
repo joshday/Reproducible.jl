@@ -13,8 +13,5 @@ function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing})
     """
 end
 
-Reproducible.build(
-    ["example/index.md", 
-     "example/pandoc.md"],
-    "docs"
-)
+Reproducible.build("example/index.md", "docs", frontmatter = "title: Introduction")
+Reproducible.build("example/pandoc.md", "docs", frontmatter = "title: Using Reproducible with Pandoc")
