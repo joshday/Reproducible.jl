@@ -1,4 +1,4 @@
-ren# Custom Renderers
+# Custom Renderers
 
 **Reproducible** creates a `CodeBlock` object from markdown code blocks.  `CodeBlock` is an 
 object that stores a vector of pairs that are essentially `codestring => eval(parse(codestring))`.
