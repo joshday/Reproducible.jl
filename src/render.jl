@@ -33,7 +33,8 @@ function render(o::CodeBlock, r::Val{:rendertest}; renderer::Symbol=:block)
     """
     **Render Test for $renderer**:
 
-    $(block(codestring(o), "julia; $renderer"))
+    ````
+    $(block(codestring(o), "julia; $renderer"))````
 
     $(render(o, Val(renderer)))
     """
