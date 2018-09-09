@@ -32,7 +32,7 @@ function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing})
     The first line of your code was $(strip(o[1][1]))
     ```
     ```
-    The output of of that line was $(o[1][2])
+    The output of that line was $(o[1][2])
     ```
     """
 end
