@@ -70,6 +70,7 @@ function CodeBlock(code::String, mod::Module)
     end
     CodeBlock(out)
 end
+Base.getindex(o::CodeBlock, i) = o.out[i]
 
 # utils
 codestring(o::CodeBlock) = join(first.(o.out))
