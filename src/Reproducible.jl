@@ -37,13 +37,21 @@ function code2string(x::Markdown.Code, mod::Module)
     ex = Meta.parse(x.language)
     lang = ex.args[1]
     if lang == :julia
-        v = Val(Meta.parse(x.language).args[end])
-        render(CodeBlock(x.code, mod), v)
+        v = Val(Meta.parse(x.language).args[2])
+        render(CodeBlock(x.code, mod), v; _kws(ex.args[3:end])...)
     else
         @warn "Reproducible doesn't know how to eval a code block with language $lang...skipping"
         Markdown.plain(x)
     end
 end
+
+# create named tuple from array of expressions e.g. :(hide = true)
+function _kws(args)
+    vals = [eval(a.args[2]) for a in args]
+    nt = NamedTuple{tuple([a.args[1] for a in args]...), Tuple{eltype.(vals)...}}(tuple(vals...))
+end
+
+
 #-----------------------------------------------------------------------# CodeBlock
 """
     CodeBlock(code::String, mod::Module)
@@ -75,7 +83,7 @@ Base.getindex(o::CodeBlock, i) = o.out[i]
 # utils
 codestring(o::CodeBlock) = join(first.(o.out))
 juliablock(s::String) = "```julia\n$(strip(s))\n```\n"
-block(s::String) = "```\n$(strip(s))\n```\n"
+block(s::String, lang="") = "```$lang\n$(strip(s))\n```\n"
 
 #-----------------------------------------------------------------------# includes
 include("render.jl")
