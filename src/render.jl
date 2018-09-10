@@ -23,7 +23,9 @@ end
 function render(o::CodeBlock, r::Val{:repl}; kw...)
     s = ""
     for ex in o.out
-        s *= "julia> " * strip(first(ex)) * '\n' * string(last(ex)) * "\n\n"
+        s *= "julia> " * strip(first(ex)) 
+        !endswith(strip(first(ex)), ';') && (s *= '\n' * string(last(ex)))
+        s *= "\n\n"
     end
     juliablock(s)
 end
