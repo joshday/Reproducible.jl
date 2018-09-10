@@ -3,8 +3,6 @@
 
 # Reproducible
 
-Reproducible.jl is a lightweight package for creating reproducible reports in Julia.
-
-## Process 
-
-Markdown -> Markdown with interpolated code
+Reproducible.jl is a lightweight package for creating reproducible reports in Julia.  See 
+[https://joshday.github.io/Reproducible.jl/](https://joshday.github.io/Reproducible.jl/) for
+instructions.
