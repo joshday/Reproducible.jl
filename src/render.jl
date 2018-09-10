@@ -1,3 +1,5 @@
+default_out(x) = repr("text/plain", x)
+
 #-----------------------------------------------------------------------# renderers
 """
     render(o::CodeBlock, r::Val{:renderer}; kw...)::String
@@ -16,15 +18,15 @@ end
 render(o::CodeBlock, r::Val{:run}; kw...) = juliablock(codestring(o))
 render(o::CodeBlock, r::Val{:hide}; kw...) = ""
 
-function render(o::CodeBlock, r::Val{:block}; kw...)
-    juliablock(codestring(o)) * "\n" * block(string(last(o.out[end])))
+function render(o::CodeBlock, r::Val{:block}; out = default_out, kw...)
+    juliablock(codestring(o)) * "\n" * block(out(last(o.out[end])))
 end
 
-function render(o::CodeBlock, r::Val{:repl}; kw...)
+function render(o::CodeBlock, r::Val{:repl}; out = default_out, kw...)
     s = ""
     for ex in o.out
         s *= "julia> " * strip(first(ex)) 
-        !endswith(strip(first(ex)), ';') && (s *= '\n' * string(last(ex)))
+        !endswith(strip(first(ex)), ';') && (s *= '\n' * repr("text/plain", last(ex)))
         s *= "\n\n"
     end
     juliablock(s)
