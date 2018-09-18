@@ -40,23 +40,17 @@ To work around this, `frontmatter` can be passed as a keyword argument to `build
 
 Renderers are meant to be customizable (see [renderers.md](renderers.md)), but there are some built into **Reproducible**:
 
-* `run`
-
-      * Run the block and insert the source code.
+* `run`: Run the block and insert the source code.
 
 ```julia
 x = "This is rendered via `julia; run;`"
 ```
 
-* `hide`
-
-      * Run the block, but hide the source code.
+* `hide`: Run the block, but hide the source code.
 
 
 
-* `block`
-
-      * Run the block and insert the source code and output of the last line.
+* `block`: Run the block and insert the source code and output of the last line.
 
 ```
 x = "This is rendered via `julia; block;`"
@@ -66,9 +60,7 @@ x = "This is rendered via `julia; block;`"
 "This is rendered via `julia; block;`"
 ```
 
-* `repl`
-
-      * Treat block as if it were entered into the Julia REPL.
+* `repl`: Treat block as if it were entered into the Julia REPL.
 
 ```julia
 julia> x = "This is rendered via `julia; repl;`"
@@ -94,51 +86,7 @@ Reproducible uses Julia's standard library `Markdown` package to parse a markdow
 f(x) = x ^ 2
 ```
 
-# Code Blocks
-
-Everything in the original source markdown file is treated as normal markdown, apart from  code blocks.  If a code block's language is `julia; <renderer>`, **Reproducible** will  evaluate the code block and insert something into the output document based on the `renderer`.
-
-* `julia; run;`
-
-Evaluate the block, but do not return output.
-
-```julia
-x = 1 
-y = 2
-```
-
-* `julia; hide;`
-
-Evaluate and hide the block
-
-
-
-* `julia; block;`
-
-Evaluate the block and also render the final value as an output.
-
-```
-x = 1 
-y = 2
-```
-
-```julia
-2
-```
-
-* `julia; repl;`
-
-```julia
-julia> x = 1
-1
-
-julia> y = 2
-2
-```
-
-Treat the block as if it was entered into the Julia REPL.
-
-# Languages Other Than Julia
+# What about Code Blocks of Other Languages?
 
 Other languages will be left alone, but there's no reason the approach of **Reproducible** could not be extended via [PyCall](https://github.com/JuliaPy/PyCall.jl),  [RCall](https://github.com/JuliaInterop/RCall.jl), etc.
 
