@@ -29,7 +29,7 @@ If you were to run this in a Julia session before calling `Reproducible.build`
 ```julia
 import Reproducible
 
-function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing})
+function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing}; kw...)
     """
     ```
     The first line of your code was $(strip(o[1][1]))

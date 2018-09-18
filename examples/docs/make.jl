@@ -5,7 +5,7 @@ import Reproducible: render
 
 Random.seed!(1234)
 
-function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing})
+function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing}; kw...)
     """
     ```
     The first line of your code was $(strip((o.out[1][1])))

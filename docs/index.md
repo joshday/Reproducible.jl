@@ -33,7 +33,7 @@ Everything in the original source markdown file is treated as normal markdown, a
 
 Evaluate the block, but do not return output.
 
-```julia
+```julia; run;
 x = 1 
 y = 2
 ```
@@ -53,7 +53,7 @@ x = 1
 y = 2
 ```
 
-```julia
+```julia; block;
 2
 ```
 
