@@ -1,3 +1,9 @@
+module BookMake
 using Glob, Reproducible
 
-Reproducible.build(glob("*.md", @__DIR__()), joinpath(@__DIR__(), "build"))
+files = glob("*.md", @__DIR__())
+
+builddir = joinpath(@__DIR__(), "build")
+
+Reproducible.build(files, builddir)
+end

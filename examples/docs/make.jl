@@ -1,3 +1,4 @@
+module DocMaker
 using Reproducible, Random
 
 import Reproducible: render
@@ -21,3 +22,4 @@ builddir = joinpath(dirname(pathof(Reproducible)), "..", "docs")
 Reproducible.build(joinpath(srcdir, "index.md"), builddir, frontmatter = "title: Introduction")
 Reproducible.build(joinpath(srcdir, "renderers.md"), builddir, frontmatter = "title: Renderers")
 Reproducible.build(joinpath(srcdir, "rendertests.md"), builddir, frontmatter = "title: Render Tests")
+end

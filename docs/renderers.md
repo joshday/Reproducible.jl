@@ -6,7 +6,7 @@ title: Renderers
 
 **Reproducible** creates a `CodeBlock` object from markdown code blocks.  `CodeBlock` is an  object that stores a vector of pairs that are essentially `codestring => eval(parse(codestring))`.
 
-To create a custom renderer so that you can use 
+To create a custom renderer so that you can use
 
 ````
 ```julia; myrenderer;

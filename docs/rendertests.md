@@ -16,13 +16,13 @@ y = 2
 ```
 ````
 
-```julia
+```
 x = 1
 
 y = 2
 ```
 
-```
+```julia
 2
 ```
 
@@ -36,7 +36,7 @@ y = 2
 ```
 ````
 
-```julia
+```julia; repl;
 julia> x = 1
 1
 
@@ -60,7 +60,6 @@ x = 1
 y = 2
 ```
 
-
 ## Test 2 (with `;`)
 
 **Render Test for block**:
@@ -73,13 +72,13 @@ y = 2
 ```
 ````
 
-```julia
+```
 x = 1;
 
 y = 2
 ```
 
-```
+```julia
 2
 ```
 
@@ -93,7 +92,7 @@ y = 2
 ```
 ````
 
-```julia
+```julia; repl;
 julia> x = 1;
 
 julia> y = 2
@@ -116,7 +115,6 @@ x = 1;
 y = 2
 ```
 
-
 ## Test 3 (Matrix)
 
 **Render Test for block**:
@@ -127,11 +125,11 @@ randn(3,3)
 ```
 ````
 
-```julia
+```
 randn(3,3)
 ```
 
-```
+```julia
 3×3 Array{Float64,2}:
   0.867347  -0.902914   0.532813
  -0.901744   0.864401  -0.271735
@@ -146,7 +144,7 @@ randn(3,3)
 ```
 ````
 
-```julia
+```julia; repl;
 julia> randn(3,3)
 3×3 Array{Float64,2}:
   0.867347  -0.902914   0.532813
@@ -165,5 +163,4 @@ randn(3,3)
 ```julia
 randn(3,3)
 ```
-
 

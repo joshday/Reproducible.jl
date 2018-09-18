@@ -1,5 +1,3 @@
-default_out(x) = repr("text/plain", x)
-
 #-----------------------------------------------------------------------# renderers
 """
     render(o::CodeBlock, r::Val{:renderer}; kw...)::String
@@ -9,28 +7,37 @@ Render a [`CodeBlock`](@ref) for the given `:renderer`, which can be used via
     ```julia; renderer;
     ...
     ```
+
+`kw...` always contains `builddir`.
 """
 function render(o::CodeBlock, r::Val{T}; kw...) where {T}
     @warn "Reproducible does not recognize the renderer `$T`.  Code block not eval-ed."
     block(codestring(o))
 end
 
-render(o::CodeBlock, r::Val{:run}; kw...) = juliablock(codestring(o))
+#-----------------------------------------------------------------------# run
+render(o::CodeBlock, r::Val{:run}; kw...) = block(codestring(o), "julia")
+
+#-----------------------------------------------------------------------# hide
 render(o::CodeBlock, r::Val{:hide}; kw...) = ""
 
-function render(o::CodeBlock, r::Val{:block}; out = default_out, kw...)
-    juliablock(codestring(o)) * "\n" * block(out(last(o.out[end])))
+#-----------------------------------------------------------------------# block
+function render(o::CodeBlock, r::Val{:block}; out = x -> repr("text/plain", x), kw...)
+    block(codestring(o)) * "\n" * block(out(last(o.out[end])), "julia")
 end
 
-function render(o::CodeBlock, r::Val{:repl}; out = default_out, kw...)
+#-----------------------------------------------------------------------# repl
+function render(o::CodeBlock, r::Val{:repl}; out = x -> repr("text/plain", x), kw...)
     s = ""
     for ex in o.out
         s *= "julia> " * strip(first(ex)) 
         !endswith(strip(first(ex)), ';') && (s *= '\n' * repr("text/plain", last(ex)))
         s *= "\n\n"
     end
-    juliablock(s)
+    block(s, "julia; repl;")
 end
+
+#-----------------------------------------------------------------------# 
 
 #-----------------------------------------------------------------------# test utils
 function render(o::CodeBlock, r::Val{:rendertest}; renderer::Symbol=:block)

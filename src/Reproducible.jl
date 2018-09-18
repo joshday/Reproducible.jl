@@ -3,15 +3,21 @@ module Reproducible
 using Markdown
 
 #-----------------------------------------------------------------------# build
+"""
+    build(path::String [, builddir::String]; frontmatter::String = "")
+    build(path::Vector{String} [, builddir::String]; frontmatter::String = "")
+
+Evaluate the markdown document(s) in `path` and put the output in `builddir`, beginning 
+with `frontmatter` (since Julia's markdown parser does not support it).
+"""
 function build(path::String, builddir = joinpath(dirname(path), "build"); frontmatter::String = "")
     mod = Main.eval(:(module __Temp__ end))
     !isdir(builddir) && mkdir(builddir)
-    # isfile(joinpath(builddir, basename(path))) && rm(joinpath(builddir, basename(path)))
     file = touch(joinpath(builddir, basename(path)))
     open(file, "w") do io
         !isempty(frontmatter) && write(io, "---\n$(strip(frontmatter))\n---\n\n")
         for x in Markdown.parse(read(path, String)).content
-            write(io, markdown2string(x, mod) * '\n')
+            write(io, strip(markdown2string(x, mod, builddir)) * "\n\n")
         end
     end
     return file
@@ -25,20 +31,20 @@ function build(paths, builddir = joinpath(dirname(paths[1]), "build"))
     files
 end
 
-function markdown2string(x, mod) 
+function markdown2string(x, mod, builddir) 
     if isa(x, Markdown.Code)
-        isa(Meta.parse(x.language), Expr) ? code2string(x, mod) : Markdown.plain(x)
+        isa(Meta.parse(x.language), Expr) ? code2string(x, mod, builddir) : Markdown.plain(x)
     else
         Markdown.plain(x)
     end
 end
 
-function code2string(x::Markdown.Code, mod::Module)
+function code2string(x::Markdown.Code, mod::Module, builddir::String)
     ex = Meta.parse(x.language)
     lang = ex.args[1]
     if lang == :julia
-        v = Val(Meta.parse(x.language).args[2])
-        render(CodeBlock(x.code, mod), v; _kws(ex.args[3:end])...)
+        v = Val(Meta.parse(x.language).args[2])  # renderer
+        render(CodeBlock(x.code, mod), v; builddir=builddir, _kws(ex.args[3:end])...)
     else
         @warn "Reproducible doesn't know how to eval a code block with language $lang...skipping"
         Markdown.plain(x)
@@ -82,7 +88,6 @@ Base.getindex(o::CodeBlock, i) = o.out[i]
 
 # utils
 codestring(o::CodeBlock) = join(first.(o.out))
-juliablock(s::String) = "```julia\n$(strip(s))\n```\n"
 block(s::String, lang="") = "```$lang\n$(strip(s))\n```\n"
 
 #-----------------------------------------------------------------------# includes

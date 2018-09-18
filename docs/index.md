@@ -14,7 +14,7 @@ Reproducible uses Julia's standard library `Markdown` package to parse a markdow
 | ----:| ---:| ---:| -----:|
 |    A |   B |   C |     D |
 
-  * Here
+* Here
   * is
   * a
   * list
@@ -29,7 +29,7 @@ f(x) = x ^ 2
 
 Everything in the original source markdown file is treated as normal markdown, apart from  code blocks.  If a code block's language is `julia; <renderer>`, **Reproducible** will  evaluate the code block and insert something into the output document based on the `renderer`.
 
-  * `julia; run;`
+* `julia; run;`
 
 Evaluate the block, but do not return output.
 
@@ -38,27 +38,28 @@ x = 1
 y = 2
 ```
 
-  * `julia; hide;`
+* `julia; hide;`
 
 Evaluate and hide the block
 
 
-  * `julia; block;`
+
+* `julia; block;`
 
 Evaluate the block and also render the final value as an output.
 
-```julia
+```
 x = 1 
 y = 2
 ```
 
-```
+```julia
 2
 ```
 
-  * `julia; repl;`
+* `julia; repl;`
 
-```julia
+```julia; repl;
 julia> x = 1
 1
 
@@ -72,7 +73,7 @@ Treat the block as if it was entered into the Julia REPL.
 
 Other languages will be left alone, but there's no reason the approach of **Reproducible** could not be extended via [PyCall](https://github.com/JuliaPy/PyCall.jl),  [RCall](https://github.com/JuliaInterop/RCall.jl), etc.
 
-  * Input file:
+* Input file:
 
 ````
 ```python
@@ -80,7 +81,7 @@ import pandas as pd
 ```
 ````
 
-  * Output file:
+* Output file:
 
 ```python
 import pandas as pd
