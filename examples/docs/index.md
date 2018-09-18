@@ -24,7 +24,8 @@ To render the code blocks in a `source` file, use the `Reproducible.build` funct
 
 `Reproducible.build(source, <builddir>; frontmatter="")`
 
-!!! note **Reproducible** uses Julia's `Markdown` package in the standard library, which does not parse
+!!! note 
+    **Reproducible** uses Julia's `Markdown` package in the standard library, which does not parse
     YAML frontmatter, e.g.
 
     ```
