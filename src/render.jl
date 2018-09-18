@@ -16,14 +16,14 @@ function render(o::CodeBlock, r::Val{T}; kw...) where {T}
 end
 
 #-----------------------------------------------------------------------# run
-render(o::CodeBlock, r::Val{:run}; kw...) = block(codestring(o), "julia; run;")
+render(o::CodeBlock, r::Val{:run}; kw...) = block(codestring(o), "julia")
 
 #-----------------------------------------------------------------------# hide
 render(o::CodeBlock, r::Val{:hide}; kw...) = ""
 
 #-----------------------------------------------------------------------# block
 function render(o::CodeBlock, r::Val{:block}; out = x -> repr("text/plain", x), kw...)
-    block(codestring(o)) * "\n" * block(out(last(o.out[end])), "julia; block;")
+    block(codestring(o)) * "\n" * block(out(last(o.out[end])), "julia")
 end
 
 #-----------------------------------------------------------------------# repl
@@ -34,7 +34,7 @@ function render(o::CodeBlock, r::Val{:repl}; out = x -> repr("text/plain", x), k
         !endswith(strip(first(ex)), ';') && (s *= '\n' * repr("text/plain", last(ex)))
         s *= "\n\n"
     end
-    block(s, "julia; repl;")
+    block(s, "julia")
 end
 
 #-----------------------------------------------------------------------# docstring
