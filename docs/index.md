@@ -35,7 +35,7 @@ To render the code blocks in a `source` file, use the `Reproducible.build` funct
     ---
     ```
 
-    To work around this, `frontmatter` can be passed as a keyword argument to `build`.
+    To work around this, `frontmatter` can be passed as a keyword argument to `build` e.g. `build(src; frontmatter = "title:Introduction\nauthor:Josh Day")`
 
 # Markdown
 
