@@ -84,6 +84,10 @@ Reproducible uses Julia's standard library `Markdown` package to parse a markdow
 # here is some julia code with syntax highlighting
 
 f(x) = x ^ 2
+
+mutable struct MyStruct
+    a::Int
+end
 ```
 
 # What about Code Blocks of Other Languages?

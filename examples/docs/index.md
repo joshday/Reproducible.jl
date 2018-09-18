@@ -80,6 +80,10 @@ valid markdown syntax is fair game.
 # here is some julia code with syntax highlighting
 
 f(x) = x ^ 2
+
+mutable struct MyStruct
+    a::Int
+end
 ```
 
 # What about Code Blocks of Other Languages?
