@@ -38,7 +38,7 @@ To work around this, `frontmatter` can be passed as a keyword argument to `build
 
 # Built-in Renderers
 
-Renderers are meant to be customizable (see [renderers.md](renderers.md)), but there are some built into **Reproducible**:
+Renderers are meant to be customizable (see the [Renderers](renderers.md) section), but there are some built into **Reproducible**:
 
 * `run`: Run the block and insert the source code.
 

@@ -6,7 +6,7 @@ object that stores a vector of pairs that are essentially `codestring => eval(pa
 To create a custom renderer so that you can use 
 
 ````
-```julia; myrenderer;
+```julia; myrenderer; ky1=true, ky2 = 10
 ...
 ```
 ````
@@ -14,7 +14,7 @@ To create a custom renderer so that you can use
 you must overload
 
 ```julia
-Reproducible.render(o::CodeBlock, r::Val{:myrenderer})
+Reproducible.render(o::CodeBlock, r::Val{:myrenderer}; kw...)
 ```
 
 which should return the String that you wish to be inserted into the output document.
