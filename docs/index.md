@@ -25,17 +25,16 @@ To render the code blocks in a `source` file, use the `Reproducible.build` funct
 
 `Reproducible.build(source, <builddir>; frontmatter="")`
 
-!!! note
-    **Reproducible** uses Julia's `Markdown` package in the standard library, which does not parse YAML frontmatter, e.g.
+Note that **Reproducible** uses Julia's `Markdown` package in the standard library, which does not parse YAML frontmatter, e.g.
 
-    ```
-    ---
-    title: Introduction
-    author: Josh Day
-    ---
-    ```
+```
+---
+title: Introduction
+author: Josh Day
+---
+```
 
-    To work around this, `frontmatter` can be passed as a keyword argument to `build` e.g. `build(src; frontmatter = "title:Introduction\nauthor:Josh Day")`
+To work around this, `frontmatter` can be passed as a keyword argument to `build` e.g. `build(src; frontmatter = "title:Introduction\nauthor:Josh Day")`
 
 # Markdown
 
