@@ -1,11 +1,46 @@
-# Usage 
+**Reproducible.jl** is a lightweight Julia package for creating reproducible reports. 
+
+The process:
+
+1. Write Markdown
+2. Generate Markdown (with *rendered* code blocks)
+
+**Reproducible** treats code blocks in the source document according to a *renderer*,
+but simply copies over all other parts of the source.
+The basic syntax for a **Reproducible** code block is
+
+````
+```julia; <renderer>
+x = 1
+```
+````
+
+If you are already familiar with the fantastic [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl) 
+package, think of **Reproducible** as a more customizable way to write `@example`, `@repl`, etc. blocks.
+
+# Usage
+
+To render the code blocks in a `source` file, use the `Reproducible.build` function:
 
 `Reproducible.build(source, <builddir>; frontmatter="")`
+
+!!! note **Reproducible** uses Julia's `Markdown` package in the standard library, which does not parse
+    YAML frontmatter, e.g.
+
+    ```
+    ---
+    title: Introduction
+    author: Josh Day
+    ---
+    ```
+
+    To work around this, `frontmatter` can be passed as a keyword argument to `build`.
+
 
 # Markdown
 
 Reproducible uses Julia's standard library `Markdown` package to parse a markdown file, so any 
-valid markdown syntax is fair game.
+valid markdown syntax is fair game.  
 
 | Here | is | a | table |
 |------|----|---|-------|
