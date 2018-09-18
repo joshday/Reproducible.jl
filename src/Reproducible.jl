@@ -88,6 +88,10 @@ Base.getindex(o::CodeBlock, i) = o.out[i]
 
 # utils
 codestring(o::CodeBlock) = join(first.(o.out))
+output(o::CodeBlock) = o.out[end][2]
+
+
+
 block(s::String, lang="") = "```$lang\n$(strip(s))\n```\n"
 
 #-----------------------------------------------------------------------# includes

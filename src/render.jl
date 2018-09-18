@@ -16,14 +16,14 @@ function render(o::CodeBlock, r::Val{T}; kw...) where {T}
 end
 
 #-----------------------------------------------------------------------# run
-render(o::CodeBlock, r::Val{:run}; kw...) = block(codestring(o), "julia")
+render(o::CodeBlock, r::Val{:run}; kw...) = block(codestring(o), "julia; run;")
 
 #-----------------------------------------------------------------------# hide
 render(o::CodeBlock, r::Val{:hide}; kw...) = ""
 
 #-----------------------------------------------------------------------# block
 function render(o::CodeBlock, r::Val{:block}; out = x -> repr("text/plain", x), kw...)
-    block(codestring(o)) * "\n" * block(out(last(o.out[end])), "julia")
+    block(codestring(o)) * "\n" * block(out(last(o.out[end])), "julia; block;")
 end
 
 #-----------------------------------------------------------------------# repl
@@ -37,7 +37,10 @@ function render(o::CodeBlock, r::Val{:repl}; out = x -> repr("text/plain", x), k
     block(s, "julia; repl;")
 end
 
-#-----------------------------------------------------------------------# 
+#-----------------------------------------------------------------------# docstring
+function render(o::CodeBlock, r::Val{:docstring}; kw...)
+    Markdown.plain(Docs.doc(output(o)))
+end
 
 #-----------------------------------------------------------------------# test utils
 function render(o::CodeBlock, r::Val{:rendertest}; renderer::Symbol=:block)

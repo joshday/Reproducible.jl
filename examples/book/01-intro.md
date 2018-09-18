@@ -22,21 +22,36 @@ document.  Renderers are customizable, but the built-in options are:
     - Run the block and insert the source code and output of the last line.
 - `repl`
     - Treat block as if it were entered into the Julia REPL.
+- `docstring`
+    - Insert the docstring into the document
 
 # Renderer Examples
+
+## Run
 
 ```julia; run;
 "This is a `run` block"
 ```
 
+## Hide
+
 ```julia; hide;
 "This is a `hide` block"
 ```
 
+## Block
 ```julia; block;
 "This is a `block` block"
 ```
 
+## Repl
 ```julia; repl;
 "This is a `repl` block"
+```
+
+## Docstring
+
+```julia; docstring;
+using Reproducible
+Reproducible.render
 ```
