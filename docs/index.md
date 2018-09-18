@@ -36,6 +36,45 @@ author: Josh Day
 
 To work around this, `frontmatter` can be passed as a keyword argument to `build` e.g. `build(src; frontmatter = "title:Introduction\nauthor:Josh Day")`
 
+# Built-in Renderers
+
+Renderers are meant to be customizable (see [renderers.md](renderers.md)), but there are some built into **Reproducible**:
+
+* `run`
+
+      * Run the block and insert the source code.
+
+```julia
+x = "This is rendered via `julia; run;`"
+```
+
+* `hide`
+
+      * Run the block, but hide the source code.
+
+
+
+* `block`
+
+      * Run the block and insert the source code and output of the last line.
+
+```
+x = "This is rendered via `julia; block;`"
+```
+
+```julia
+"This is rendered via `julia; block;`"
+```
+
+* `repl`
+
+      * Treat block as if it were entered into the Julia REPL.
+
+```julia
+julia> x = "This is rendered via `julia; repl;`"
+"This is rendered via `julia; repl;`"
+```
+
 # Markdown
 
 Reproducible uses Julia's standard library `Markdown` package to parse a markdown file, so any  valid markdown syntax is fair game.
