@@ -22,7 +22,7 @@ x = 1
 y = 2
 ```
 
-```julia; block;
+```julia
 2
 ```
 
@@ -36,7 +36,7 @@ y = 2
 ```
 ````
 
-```julia; repl;
+```julia
 julia> x = 1
 1
 
@@ -54,7 +54,7 @@ y = 2
 ```
 ````
 
-```julia; run;
+```julia
 x = 1
 
 y = 2
@@ -78,7 +78,7 @@ x = 1;
 y = 2
 ```
 
-```julia; block;
+```julia
 2
 ```
 
@@ -92,7 +92,7 @@ y = 2
 ```
 ````
 
-```julia; repl;
+```julia
 julia> x = 1;
 
 julia> y = 2
@@ -109,7 +109,7 @@ y = 2
 ```
 ````
 
-```julia; run;
+```julia
 x = 1;
 
 y = 2
@@ -129,7 +129,7 @@ randn(3,3)
 randn(3,3)
 ```
 
-```julia; block;
+```julia
 3×3 Array{Float64,2}:
   0.867347  -0.902914   0.532813
  -0.901744   0.864401  -0.271735
@@ -144,7 +144,7 @@ randn(3,3)
 ```
 ````
 
-```julia; repl;
+```julia
 julia> randn(3,3)
 3×3 Array{Float64,2}:
   0.867347  -0.902914   0.532813
@@ -160,7 +160,7 @@ randn(3,3)
 ```
 ````
 
-```julia; run;
+```julia
 randn(3,3)
 ```
 
