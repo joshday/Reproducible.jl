@@ -60,6 +60,7 @@ x = 1
 y = 2
 ```
 
+
 ## Test 2 (with `;`)
 
 **Render Test for block**:
@@ -115,6 +116,7 @@ x = 1;
 y = 2
 ```
 
+
 ## Test 3 (Matrix)
 
 **Render Test for block**:
@@ -163,4 +165,5 @@ randn(3,3)
 ```julia
 randn(3,3)
 ```
+
 

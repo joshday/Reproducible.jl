@@ -17,7 +17,7 @@ function build(path::String, builddir = joinpath(dirname(path), "build"); frontm
     open(file, "w") do io
         !isempty(frontmatter) && write(io, "---\n$(strip(frontmatter))\n---\n\n")
         for x in Markdown.parse(read(path, String)).content
-            write(io, strip(markdown2string(x, mod, builddir)) * "\n\n")
+            write(io, markdown2string(x, mod, builddir) * "\n")
         end
     end
     return file
