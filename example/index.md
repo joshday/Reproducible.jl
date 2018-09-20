@@ -86,7 +86,7 @@ mutable struct MyStruct
 end
 ```
 
-# What about Code Blocks of Other Languages?
+# Code Blocks of Other Languages
 
 Other languages will be left alone, but there's no reason the approach of **Reproducible**
 could not be extended via [PyCall](https://github.com/JuliaPy/PyCall.jl), 
