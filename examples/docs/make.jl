@@ -17,9 +17,8 @@ function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing}; kw...)
 end
 
 srcdir = joinpath(dirname(pathof(Reproducible)), "..", "examples", "docs")
-builddir = joinpath(dirname(pathof(Reproducible)), "..", "docs")
 
-Reproducible.build(joinpath(srcdir, "index.md"), builddir, frontmatter = "title: Introduction")
-Reproducible.build(joinpath(srcdir, "renderers.md"), builddir, frontmatter = "title: Renderers")
-Reproducible.build(joinpath(srcdir, "rendertests.md"), builddir, frontmatter = "title: Render Tests")
+Reproducible.build(joinpath(srcdir, "index.md"), frontmatter = "title: Introduction")
+Reproducible.build(joinpath(srcdir, "renderers.md"), frontmatter = "title: Renderers")
+Reproducible.build(joinpath(srcdir, "rendertests.md"), frontmatter = "title: Render Tests")
 end

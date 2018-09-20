@@ -1,4 +1,4 @@
-**Reproducible.jl** is a lightweight Julia package for creating reproducible reports. 
+[**Reproducible.jl**](https://github.com/joshday/Reproducible.jl) is a lightweight Julia package for creating reproducible reports. 
 
 The process:
 
