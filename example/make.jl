@@ -14,5 +14,5 @@ function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing}; kw...)
     """
 end
 
-Reproducible.build(joinpath(dirname(pathof(Reproducible)), "..", "example", "docs.md"); toc=true)
+Reproducible.build(joinpath(dirname(pathof(Reproducible)), "..", "example", "index.md"); toc=true)
 end
