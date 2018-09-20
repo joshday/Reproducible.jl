@@ -22,7 +22,7 @@ package, think of **Reproducible** as a more customizable way to write `@example
 
 To render the code blocks in a `source` file, use the `Reproducible.build` function:
 
-`Reproducible.build(source, <builddir>; frontmatter="")`
+`Reproducible.build(source, <builddir>; frontmatter="", toc=false)`
 
 Note that **Reproducible** uses Julia's `Markdown` package in the standard library, which does not parse
 YAML frontmatter, e.g.
