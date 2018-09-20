@@ -9,5 +9,5 @@ function maketoc(path::String; depth=2, title = "# Table of Contents")
             end
         end
     end
-    s * "\n\n"
+    s * "\n\n---\n\n"
 end
