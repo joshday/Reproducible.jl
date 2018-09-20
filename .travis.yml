@@ -13,12 +13,13 @@ notifications:
   email: true
 after_success:
   - julia -e 'import Pkg; cd(Pkg.dir("Reproducible")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
-  - julia -e 'include("examples/docs/make.jl")'
+  - julia -e 'include("example/make.jl")'
+
+# use examples/docs to produce gh-pages website
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep-history: true
   local-dir: examples/docs/build
   on:
     branch: master

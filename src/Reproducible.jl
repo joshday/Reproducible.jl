@@ -10,11 +10,12 @@ using Markdown
 Evaluate the markdown document(s) in `path` and put the output in `builddir`, beginning 
 with `frontmatter` (since Julia's markdown parser does not support it).
 """
-function build(path::String, builddir = joinpath(dirname(path), "build"); frontmatter::String = "")
+function build(path::String, builddir = joinpath(dirname(path), "build"); frontmatter::String = "", toc=false)
     mod = Main.eval(:(module __Temp__ end))
     !isdir(builddir) && mkdir(builddir)
     file = touch(joinpath(builddir, basename(path)))
     open(file, "w") do io
+        toc && write(io, maketoc(path))
         !isempty(frontmatter) && write(io, "---\n$(strip(frontmatter))\n---\n\n")
         for x in Markdown.parse(read(path, String)).content
             write(io, markdown2string(x, mod, builddir) * "\n")
@@ -85,16 +86,14 @@ function CodeBlock(code::String, mod::Module)
     CodeBlock(out)
 end
 Base.getindex(o::CodeBlock, i) = o.out[i]
-
-# utils
 codestring(o::CodeBlock) = join(first.(o.out))
 output(o::CodeBlock) = o.out[end][2]
 
-
-
+#-----------------------------------------------------------------------# utils
 block(s::String, lang="") = "```$lang\n$(strip(s))\n```\n"
 
 #-----------------------------------------------------------------------# includes
+include("toc.jl")
 include("render.jl")
 
 end # module
