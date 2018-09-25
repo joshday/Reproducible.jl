@@ -14,4 +14,5 @@ end
 
 function make_link(header)
     s = lowercase(replace(header, " " => "-"))
+    s = lowercase(replace(s, "?" => ""))
 end
