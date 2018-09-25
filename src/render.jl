@@ -1,3 +1,8 @@
+#-----------------------------------------------------------------------# utils 
+
+_repr(o::Nothing) = ""
+_repr(o) = repr("text/plain", o)
+
 #-----------------------------------------------------------------------# renderers
 """
     render(o::CodeBlock, r::Val{:renderer}; kw...)::String
@@ -22,16 +27,16 @@ render(o::CodeBlock, r::Val{:run}; kw...) = block(codestring(o), "julia")
 render(o::CodeBlock, r::Val{:hide}; kw...) = ""
 
 #-----------------------------------------------------------------------# block
-function render(o::CodeBlock, r::Val{:block}; out = x -> repr("text/plain", x), kw...)
+function render(o::CodeBlock, r::Val{:block}; out = _repr, kw...)
     block(codestring(o)) * "\n" * block(out(last(o.out[end])), "julia")
 end
 
 #-----------------------------------------------------------------------# repl
-function render(o::CodeBlock, r::Val{:repl}; out = x -> repr("text/plain", x), kw...)
+function render(o::CodeBlock, r::Val{:repl}; out = _repr, kw...)
     s = ""
     for ex in o.out
         s *= "julia> " * strip(first(ex)) 
-        !endswith(strip(first(ex)), ';') && (s *= '\n' * repr("text/plain", last(ex)))
+        !endswith(strip(first(ex)), ';') && (s *= '\n' * _repr(last(ex)))
         s *= "\n\n"
     end
     block(s, "julia")
