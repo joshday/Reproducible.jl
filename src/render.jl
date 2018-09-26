@@ -36,7 +36,7 @@ function render(o::CodeBlock, r::Val{:repl}; transform=identity, kw...)
     s = ""
     for row in o.rows
         s *= "julia> " * strip(row.input) 
-        s *= '\n' * row.repldisplay
+        s *= '\n' * strip(row.repldisplay)
         s *= "\n\n"
     end
     block(s, "julia")
