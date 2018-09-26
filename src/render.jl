@@ -27,16 +27,16 @@ render(o::CodeBlock, r::Val{:run}; kw...) = block(codestring(o), "julia")
 render(o::CodeBlock, r::Val{:hide}; kw...) = ""
 
 #-----------------------------------------------------------------------# block
-function render(o::CodeBlock, r::Val{:block}; out = _repr, kw...)
-    block(codestring(o)) * "\n" * block(out(last(o.out[end])), "julia")
+function render(o::CodeBlock, r::Val{:block}; transform=identity, kw...)
+    block(codestring(o)) * "\n" * block(transform(o.rows[end].repldisplay), "julia")
 end
 
 #-----------------------------------------------------------------------# repl
-function render(o::CodeBlock, r::Val{:repl}; out = _repr, kw...)
+function render(o::CodeBlock, r::Val{:repl}; transform=identity, kw...)
     s = ""
-    for ex in o.out
-        s *= "julia> " * strip(first(ex)) 
-        !endswith(strip(first(ex)), ';') && (s *= '\n' * _repr(last(ex)))
+    for row in o.rows
+        s *= "julia> " * strip(row.input) 
+        s *= '\n' * row.repldisplay
         s *= "\n\n"
     end
     block(s, "julia")

@@ -6,10 +6,10 @@ Random.seed!(1234)
 function Reproducible.render(o::Reproducible.CodeBlock, r::Val{:thing}; kw...)
     """
     ```
-    The first line of your code was $(strip((o.out[1][1])))
+    The first line of your code was $(strip((o.rows[1].input)))
     ```
     ```
-    The output of that line was $(o[1][2])
+    The output of that line was $(o.rows[1].repldisplay)
     ```
     """
 end

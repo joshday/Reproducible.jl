@@ -59,35 +59,50 @@ function _kws(args)
 end
 
 
+#-----------------------------------------------------------------------# CodeRow 
+"""
+Object that represents a block of code.  Fields are:
+
+- `input (String)`: the input block of code
+- `output (Any)`: the result of `eval(parse(input))`
+- `repldisplay (String)`: string of what would get sent to REPL
+"""
+struct CodeRow 
+    input::String
+    output::Any
+    repldisplay::String
+end
+
 #-----------------------------------------------------------------------# CodeBlock
 """
     CodeBlock(code::String, mod::Module)
 
 Object to represent code for a **Reproducible** renderer.  The constructor parses/evaluates
-the code inside the provided module.  A `CodeBlock` is a wrapper around a vector of pairs
-where each element is:
-
-    codestring => eval(parse(codestring))
-
-This allows renderers to have access to all of the inputs and outputs of a code block.  
-For docs on writing a new renderer, see [`render`](@ref).
+the code inside the provided module. 
 """
 struct CodeBlock
-    out::Vector{Pair{String, Any}}
+    rows::Vector{CodeRow}
 end
 function CodeBlock(code::String, mod::Module)
     n = 1 
-    out = Pair{String,Any}[]  
+    rows = CodeRow[]  
     while n < length(code)
         nold = n
         ex, n = Meta.parse(code, n)
-        push!(out, code[nold:n-1] => @eval(mod, $ex))
+        input = code[nold:n-1]
+        output = @eval(mod, $ex)
+        # Capture repl display
+        io = IOContext(IOBuffer(), :display_size => (20, 80), :limit => true)
+        show(io, MIME"text/plain"(), rand(100,100))
+        out = String(take!(io.io))
+
+        cr = CodeRow(input, output, out)
+        push!(rows, cr)
     end
-    CodeBlock(out)
+    CodeBlock(rows)
 end
-Base.getindex(o::CodeBlock, i) = o.out[i]
-codestring(o::CodeBlock) = join(first.(o.out))
-output(o::CodeBlock) = o.out[end][2]
+Base.getindex(o::CodeBlock, i) = o.rows[i]
+codestring(o::CodeBlock) = join([r.input for r in o.rows])
 
 #-----------------------------------------------------------------------# utils
 block(s::String, lang="") = "```$lang\n$(strip(s))\n```\n"
