@@ -93,7 +93,7 @@ function CodeBlock(code::String, mod::Module; display_size = (10, 80), limit = t
         output = @eval(mod, $ex)
         # Capture repl display
         io = IOContext(IOBuffer(), :display_size => display_size, :limit => limit)
-        show(io, MIME"text/plain"(), output)
+        show(io, MIME"text/plain"(), endswith(input, ';') ? nothing : output)
         out = String(take!(io.io))
 
         cr = CodeRow(input, output, out)
