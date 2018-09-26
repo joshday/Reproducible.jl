@@ -92,7 +92,7 @@ function CodeBlock(code::String, mod::Module, args...; display_size = (10, 80), 
         input = code[nold:n-1]
         output = @eval(mod, $ex)
         io = IOContext(IOBuffer(), :display_size => display_size, :limit => limit, args...)
-        show(io, MIME"text/plain"(), endswith(strip(input), ';') ? nothing : output)
+        show(io, MIME"text/plain"(), endswith(strip(input), ';') ? "" : output)
         out = String(take!(io.io))
         push!(rows, CodeRow(input, output, out))
     end
