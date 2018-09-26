@@ -83,7 +83,7 @@ the code inside the provided module.
 struct CodeBlock
     rows::Vector{CodeRow}
 end
-function CodeBlock(code::String, mod::Module; display_size = (10, 80), limit = true, kw...)
+function CodeBlock(code::String, mod::Module, args...; display_size = (10, 80), limit = true)
     n = 1 
     rows = CodeRow[]  
     while n < length(code)
@@ -91,13 +91,10 @@ function CodeBlock(code::String, mod::Module; display_size = (10, 80), limit = t
         ex, n = Meta.parse(code, n)
         input = code[nold:n-1]
         output = @eval(mod, $ex)
-        # Capture repl display
-        io = IOContext(IOBuffer(), :display_size => display_size, :limit => limit)
-        show(io, MIME"text/plain"(), endswith(input, ';') ? nothing : output)
+        io = IOContext(IOBuffer(), :display_size => display_size, :limit => limit, args...)
+        show(io, MIME"text/plain"(), endswith(strip(input), ';') ? nothing : output)
         out = String(take!(io.io))
-
-        cr = CodeRow(input, output, out)
-        push!(rows, cr)
+        push!(rows, CodeRow(input, output, out))
     end
     CodeBlock(rows)
 end
