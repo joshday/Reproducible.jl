@@ -165,3 +165,9 @@ y = 2
 ```julia; testall;
 randn(3,3)
 ```
+
+# Limitations
+
+```julia;repl
+@time randn(100);
+```
