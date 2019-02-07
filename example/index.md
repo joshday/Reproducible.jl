@@ -170,7 +170,7 @@ randn(3,3)
 
 # Plot Example
 
-```julia; block
+```julia; run
 using Pkg
 Pkg.add("Plots")
 using Plots
