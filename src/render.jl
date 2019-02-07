@@ -64,7 +64,3 @@ function render(o::CodeBlock, r::Val{:testall}; kw...)
         render(o, Val(:rendertest); renderer = :repl) * 
         render(o, Val(:rendertest); renderer = :run)
 end
-
-#-----------------------------------------------------------------------# plot
-function render(o::CodeBlock, r::Val{:plot}; format=:png, kw...)
-end

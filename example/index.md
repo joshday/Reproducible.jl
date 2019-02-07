@@ -174,9 +174,11 @@ randn(3,3)
 using Pkg
 Pkg.add("Plots")
 using Plots
-plot(rand(10))
+scatter(rand(20))
 ```
 
 ```julia; hide
-png("plot.png")
+png("build/plot.png")
 ```
+
+![](plot.png)
