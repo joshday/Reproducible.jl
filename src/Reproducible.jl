@@ -10,21 +10,21 @@ using Markdown
 Evaluate the markdown document(s) in `path` and put the output in `builddir`, beginning 
 with `frontmatter` (since Julia's markdown parser does not support it).
 """
-function build(path::String, builddir = joinpath(dirname(path), "build"); frontmatter::String = "", toc=false)
-    mod = Main.eval(:(module __Temp__ end))
+function build(path::String, builddir::String = joinpath(dirname(path), "build"); frontmatter::String = "", toc=false)
+    TempModule = Main.eval(:(module __Temp__ end))
     !isdir(builddir) && mkdir(builddir)
     file = touch(joinpath(builddir, basename(path)))
     open(file, "w") do io
         toc && write(io, maketoc(path))
         !isempty(frontmatter) && write(io, "---\n$(strip(frontmatter))\n---\n\n")
         for x in Markdown.parse(read(path, String)).content
-            write(io, markdown2string(x, mod, builddir) * "\n")
+            write(io, markdown2string(x, TempModule, builddir) * "\n")
         end
     end
     return file
 end
 
-function build(paths, builddir = joinpath(dirname(paths[1]), "build"))
+function build(paths::Vector{String}, builddir::String = joinpath(dirname(paths[1]), "build"))
     files = []
     for path in paths 
         push!(files, build(path, builddir))
@@ -32,7 +32,7 @@ function build(paths, builddir = joinpath(dirname(paths[1]), "build"))
     files
 end
 
-function markdown2string(x, mod, builddir) 
+function markdown2string(x #=Markdown=#, mod::Module, builddir::String) 
     if isa(x, Markdown.Code)
         isa(Meta.parse(x.language), Expr) ? code2string(x, mod, builddir) : Markdown.plain(x)
     else

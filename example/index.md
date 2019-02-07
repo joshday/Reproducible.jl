@@ -168,8 +168,15 @@ y = 2
 randn(3,3)
 ```
 
-# Limitations
+# Plot Example
 
-```julia;repl
-@time randn(100);
+```julia; block
+using Pkg
+Pkg.add("Plots")
+using Plots
+plot(rand(10))
+```
+
+```julia; hide
+png("plot.png")
 ```
