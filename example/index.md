@@ -2,14 +2,8 @@
 
 **[Reproducible.jl](https://github.com/joshday/Reproducible.jl) is a lightweight Julia package for creating reproducible reports.** 
 
-You **write markdown** and **Reproducible** generates another markdown file with "rendered" code blocks
-
-1. Write Markdown
-2. Generate Markdown (with *rendered* code blocks)
-
-**Reproducible** treats code blocks in the source document according to a *renderer*,
-but simply copies over all other parts of the source.
-The basic syntax for a **Reproducible** code block is
+- You **write markdown** and **Reproducible** generates another markdown file with "rendered" code blocks.  
+- Basic syntax:
 
 ````
 ```julia; <renderer>
@@ -18,7 +12,7 @@ x = 1
 ````
 
 If you are already familiar with the fantastic [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl) 
-package, think of **Reproducible** as a more customizable way to write `@example`, `@repl`, etc. blocks.
+package, think of **Reproducible** as a customizable way to write `@example`, `@repl`, etc. blocks.
 
 # Usage
 
