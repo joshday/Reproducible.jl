@@ -83,7 +83,7 @@ the code inside the provided module.
 struct CodeBlock
     rows::Vector{CodeRow}
 end
-function CodeBlock(code::String, mod::Module, args...; display_size = (10, 80), limit = true)
+function CodeBlock(code::String, mod::Module, args...; display_size = displaysize(), limit = true)
     n = 1 
     rows = CodeRow[]  
     while n < length(code)

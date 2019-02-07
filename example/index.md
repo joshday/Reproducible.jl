@@ -1,6 +1,8 @@
-[**Reproducible.jl**](https://github.com/joshday/Reproducible.jl) is a lightweight Julia package for creating reproducible reports. 
+# What is Reproducible.jl?
 
-The process:
+**[Reproducible.jl](https://github.com/joshday/Reproducible.jl) is a lightweight Julia package for creating reproducible reports.** 
+
+You **write markdown** and **Reproducible** generates another markdown file with "rendered" code blocks
 
 1. Write Markdown
 2. Generate Markdown (with *rendered* code blocks)
@@ -42,22 +44,22 @@ To work around this, `frontmatter` can be passed as a keyword argument to `build
 Renderers are meant to be customizable (see the [Renderers](renderers.md) section), but there are some
 built into **Reproducible**:
 
-- `run`: Run the block and insert the source code.
+- **`run`**: Run the block and insert the source code.
 ```julia; run;
 x = "This is rendered via `julia; run;`"
 ```
 
-- `hide`: Run the block, but hide the source code.
+- **`hide`**: Run the block, but hide the source code.
 ```julia; hide;
 x = "This is rendered via `julia; hide;`"
 ```
 
-- `block`: Run the block and insert the source code and output of the last line.
+- **`block`**: Run the block and insert the source code and output of the last line.
 ```julia; block;
 x = "This is rendered via `julia; block;`"
 ```
 
-- `repl`: Treat block as if it were entered into the Julia REPL.
+- **`repl`**: Treat block as if it were entered into the Julia REPL.
 ```julia; repl;
 x = "This is rendered via `julia; repl;`"
 ```
