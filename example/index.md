@@ -165,14 +165,12 @@ randn(3,3)
 # Plot Example
 
 ```julia; run
-using Pkg
-Pkg.add("Plots")
 using Plots
 scatter(rand(20))
 ```
 
 ```julia; hide
-png("build/plot.png")
+png(joinpath(__builddir__, "plot.png"))
 ```
 
 ![](plot.png)

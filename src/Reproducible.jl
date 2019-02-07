@@ -11,13 +11,15 @@ Evaluate the markdown document(s) in `path` and put the output in `builddir`, be
 with `frontmatter` (since Julia's markdown parser does not support it).
 """
 function build(path::String, builddir::String = joinpath(dirname(path), "build"); frontmatter::String = "", toc=false)
-    TempModule = Main.eval(:(module __Temp__ end))
+    TempModule = Main.eval(:(module __Temp__; const __builddir__ = $builddir end))
     !isdir(builddir) && mkdir(builddir)
     file = touch(joinpath(builddir, basename(path)))
     open(file, "w") do io
         toc && write(io, maketoc(path))
         !isempty(frontmatter) && write(io, "---\n$(strip(frontmatter))\n---\n\n")
-        for x in Markdown.parse(read(path, String)).content
+        content = Markdown.parse(read(path, String)).content
+        for (i, x) in enumerate(content)
+            @info "Reproducible Build: $i / $(length(content))"
             write(io, markdown2string(x, TempModule, builddir) * "\n")
         end
     end

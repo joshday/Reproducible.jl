@@ -11,7 +11,7 @@ matrix:
 notifications:
   email: true
 after_success:
-  - julia -e 'import Pkg; cd(Pkg.dir("Reproducible")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia -e 'import Pkg; cd(Pkg.dir("Reproducible")); Pkg.add("Plots"); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
   - julia -e 'include("example/make.jl")'
 
 # use examples/docs to produce gh-pages website
