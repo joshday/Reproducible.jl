@@ -1,6 +1,9 @@
 name = "Reproducible"
 uuid = "74acc403-992c-5bc5-99bd-1528790dac51"
-version = "1.2"
+version = "1.2.0"
+
+[deps]
+Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
