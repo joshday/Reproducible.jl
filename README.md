@@ -1,5 +1,7 @@
-[![Build Status](https://travis-ci.org/joshday/Reproducible.jl.svg?branch=master)](https://travis-ci.org/joshday/Reproducible.jl)
-[![codecov](https://codecov.io/gh/joshday/Reproducible.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/joshday/Reproducible.jl)
+[![CI](https://github.com/joshday/Reproducible.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/joshday/Reproducible.jl/actions/workflows/CI.yml)
+[![Docs Build](https://github.com/joshday/Reproducible.jl/actions/workflows/Docs.yml/badge.svg)](https://github.com/joshday/Reproducible.jl/actions/workflows/Docs.yml)
+[![Stable Docs](https://img.shields.io/badge/docs-stable-blue)](https://joshday.github.io/Reproducible.jl/stable/)
+[![Dev Docs](https://img.shields.io/badge/docs-dev-blue)](https://joshday.github.io/Reproducible.jl/dev/)
 
 # Reproducible
 
